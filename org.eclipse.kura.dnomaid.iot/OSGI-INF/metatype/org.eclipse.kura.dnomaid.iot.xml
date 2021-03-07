@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+    Copyright (c) 2011, 2018 Eurotech and/or its affiliates
+
+     All rights reserved. This program and the accompanying materials
+     are made available under the terms of the Eclipse Public License v1.0
+     which accompanies this distribution, and is available at
+     http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Eurotech
+
+-->
+<MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
+    <OCD id="org.eclipse.kura.dnomaid.iot"
+         name="iot Dnomaid"
+         description="MqttDnomaid --Relay schedule setting--">
+        <Icon resource="OSGI-INF/heater.png" size="32"/>
+        <!--01 Time Schedule Relay-->
+    	<AD id="1ScheduledRelay" name="01-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="1ScheduledCmnd" name="01-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="1ScheduledHour" name="01-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="1ScheduledMinute" name="01-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--02 Time Schedule Relay-->
+    	<AD id="2ScheduledRelay" name="02-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="2ScheduledCmnd" name="02-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="2ScheduledHour" name="02-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="2ScheduledMinute" name="02-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--03 Time Schedule Relay-->
+    	<AD id="3ScheduledRelay" name="03-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="3ScheduledCmnd" name="03-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="3ScheduledHour" name="03-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="3ScheduledMinute" name="03-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--04 Time Schedule Relay-->
+    	<AD id="4ScheduledRelay" name="04-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="4ScheduledCmnd" name="04-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="4ScheduledHour" name="04-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="4ScheduledMinute" name="04-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--05 Time Schedule Relay-->
+    	<AD id="5ScheduledRelay" name="05-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="5ScheduledCmnd" name="05-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="5ScheduledHour" name="05-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="5ScheduledMinute" name="05-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--06 Time Schedule Relay-->
+    	<AD id="6ScheduledRelay" name="06-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="6ScheduledCmnd" name="06-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="6ScheduledHour" name="06-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="6ScheduledMinute" name="06-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--07 Time Schedule Relay-->
+    	<AD id="7ScheduledRelay" name="07-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="7ScheduledCmnd" name="07-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="7ScheduledHour" name="07-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="7ScheduledMinute" name="07-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--08 Time Schedule Relay-->
+    	<AD id="8ScheduledRelay" name="08-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="8ScheduledCmnd" name="08-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="8ScheduledHour" name="08-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="8ScheduledMinute" name="08-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+        <!--09 Time Schedule Relay-->
+    	<AD id="9ScheduledRelay" name="09-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
+    		<Option label="None" 	value="none"/>
+  			<Option label="All" 	value="all"/>
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>
+  		<AD id="9ScheduledCmnd" name="09-Command Relay" type="String" cardinality="0" required="false" default="off" description="Select turn on/off">
+  			<Option label="ON" 		value="on"/>
+  			<Option label="OFF" 	value="off"/>
+  		</AD>  				
+    	<AD id="9ScheduledHour" name="09-Scheduled Hour" type="String" cardinality="0" required="false" default="00" description="Select Hour" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/>
+		</AD>    	
+    	<AD id="9ScheduledMinute" name="09-Scheduled Minute" type="String" cardinality="0" required="false" default="00" description="Select minute" >
+    		<Option label="00" 	value="0" /><Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6" /><Option label="07" 	value="7" /><Option label="08" 	value="8" /><Option label="09" 	value="9" />
+    		<Option label="10" 	value="10"/><Option label="11" 	value="11"/><Option label="12" 	value="12"/><Option label="13" 	value="13"/><Option label="14" 	value="14"/>
+    		<Option label="15" 	value="15"/><Option label="16" 	value="16"/><Option label="17" 	value="17"/><Option label="18" 	value="18"/><Option label="19" 	value="19"/>
+    		<Option label="20" 	value="20"/><Option label="21" 	value="21"/><Option label="22" 	value="22"/><Option label="23" 	value="23"/><Option label="24" 	value="24"/>
+    		<Option label="25" 	value="25"/><Option label="26" 	value="26"/><Option label="27" 	value="27"/><Option label="28" 	value="28"/><Option label="29" 	value="29"/>
+    		<Option label="30" 	value="30"/><Option label="31" 	value="31"/><Option label="32" 	value="32"/><Option label="33" 	value="33"/><Option label="34" 	value="34"/>
+    		<Option label="35" 	value="35"/><Option label="36" 	value="36"/><Option label="37" 	value="37"/><Option label="38" 	value="38"/><Option label="39" 	value="39"/>
+    		<Option label="40" 	value="40"/><Option label="41" 	value="41"/><Option label="42"	value="42"/><Option label="43" 	value="43"/><Option label="44" 	value="44"/>
+    		<Option label="45" 	value="45"/><Option label="46" 	value="46"/><Option label="47"	value="47"/><Option label="48" 	value="48"/><Option label="49" 	value="49"/>
+    		<Option label="50" 	value="50"/><Option label="51" 	value="51"/><Option label="52" 	value="52"/><Option label="53" 	value="53"/><Option label="54" 	value="54"/>
+    		<Option label="55" 	value="55"/><Option label="56" 	value="56"/><Option label="57" 	value="57"/><Option label="58" 	value="58"/><Option label="59" 	value="59"/>
+		</AD>
+    </OCD>
+    <Designate 
+    pid="org.eclipse.kura.dnomaid.iot" 
+    factoryPid="org.eclipse.kura.dnomaid.iot">
+        <Object ocdref="org.eclipse.kura.dnomaid.iot"/>
+    </Designate>
+</MetaData>
