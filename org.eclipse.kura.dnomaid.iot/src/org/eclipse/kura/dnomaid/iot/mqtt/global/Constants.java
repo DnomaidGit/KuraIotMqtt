@@ -19,13 +19,13 @@ public interface Constants {
     String DEVICE310="XiaomiZNCZ04LM_1";
     String SENSOR211="Temp";
     String SENSOR212="Hum";
-    String SENSOR111="Sensor_1";
-    String SENSOR121="Sensor_1";
+    String SENSOR111="SensorClimate_1";
+    String SENSOR121="SensorClimate_1";
     String RELAY011="Relay_1/POWER";
     String RELAY021="Relay_1/POWER";
     String RELAY031="Relay_1/POWER";
     String RELAY041="Relay_1/POWER";
     String RELAY051="Relay_1/POWER";
-    String RELAY311="Relay_1/set";
-    String SENSOR311="Relay_1";
+    String RELAY311="RelaySensorClimate_1/set";
+    String SENSOR311="RelaySensorClimate_1";
 }
