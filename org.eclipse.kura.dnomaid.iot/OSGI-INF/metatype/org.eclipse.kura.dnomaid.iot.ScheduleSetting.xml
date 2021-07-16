@@ -14,7 +14,7 @@
 
 -->
 <MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
-    <OCD id="org.eclipse.kura.dnomaid.iot"
+    <OCD id="org.eclipse.kura.dnomaid.iot.ScheduleSetting"
          name="iot Dnomaid"
          description="MqttDnomaid --Relay schedule setting--">
         <Icon resource="OSGI-INF/heater.png" size="32"/>
@@ -344,8 +344,8 @@
 		</AD>
     </OCD>
     <Designate 
-    pid="org.eclipse.kura.dnomaid.iot" 
-    factoryPid="org.eclipse.kura.dnomaid.iot">
-        <Object ocdref="org.eclipse.kura.dnomaid.iot"/>
+    pid="org.eclipse.kura.dnomaid.iot.ScheduleSetting" 
+    factoryPid="org.eclipse.kura.dnomaid.iot.ScheduleSetting">
+        <Object ocdref="org.eclipse.kura.dnomaid.iot.ScheduleSetting"/>
     </Designate>
 </MetaData>

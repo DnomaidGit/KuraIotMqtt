@@ -96,6 +96,7 @@ public void unsubscribe() {
     }	        
 }	    
 public void publish(String topic, String message) {
+	connection = Connection.getInstance();
     connection.createPublishTopic();
     String[] additionalArgs = new String[4];
     additionalArgs[0] = " Message:" + message;
