@@ -17,7 +17,7 @@
     <OCD id="org.eclipse.kura.dnomaid.iot.ScheduleSetting"
          name="iot Dnomaid"
          description="MqttDnomaid --Relay schedule setting--">
-        <Icon resource="OSGI-INF/heater.png" size="32"/>
+        <Icon resource="OSGI-INF/schedule.png" size="32"/>
         <!--01 Time Schedule Relay-->
     	<AD id="1ScheduledRelay" name="01-Time Schedule Relay" type="String" cardinality="0" required="false" default="none" description="Add relay">
     		<Option label="None" 	value="none"/>
