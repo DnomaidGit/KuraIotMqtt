@@ -22,8 +22,8 @@ public class Scheduled implements ConfigurableComponent{
 	private List<ScheduleRelay> ls = new ArrayList<ScheduleRelay>();
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
-    private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Iot";
-    private static final String ALIAS_APP_ID = "Iot";
+    private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Scheduled";
+    private static final String ALIAS_APP_ID = "Scheduled";
     private List <String> relays = new  ArrayList<String>();
     private List <String> messageRelay = new  ArrayList<String>();    
     
@@ -120,7 +120,7 @@ public class Scheduled implements ConfigurableComponent{
 				Hour = String.valueOf(now.getHour());
 				Minute = String.valueOf(now.getMinute());
 				Second = String.valueOf(now.getSecond());
-				if(Second.equals("0"))logger("##scheduledRelay LocalDateTime:" + Hour + " : " + Minute + " : " + Second + " : ");				
+				if(Second.equals("0"))logger("##scheduledRelay LocalDateTime: " + Hour + " : " + Minute);				
 			} catch (Exception e) {
 		        logger("##Bundle error:" + APP_ID + " ->" + e);
 				e.printStackTrace();

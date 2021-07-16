@@ -1,6 +1,6 @@
-package org.eclipse.kura.dnomaid.iot;
+package org.eclipse.kura.dnomaid.iot.schedule;
 
-public class Scheduled {
+public class ScheduleRelay {
 	private int id;
 	private String name="Scheduled";
 	private String propertyRelay="Relay";
@@ -13,7 +13,7 @@ public class Scheduled {
     private String valueHour;
     private String valueMinute;
         
-	public Scheduled(int id) {
+	public ScheduleRelay(int id) {
 		super();
 		this.id = id;
 		this.name = id + this.name;
@@ -84,6 +84,4 @@ public class Scheduled {
 		return id+name;
 	}
 	
-	
-
 }
