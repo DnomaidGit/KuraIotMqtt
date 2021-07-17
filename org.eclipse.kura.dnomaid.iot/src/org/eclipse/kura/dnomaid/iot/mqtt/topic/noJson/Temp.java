@@ -1,6 +1,8 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson;
 
-public class Temp {
+import org.eclipse.kura.dnomaid.iot.mqtt.topic.ActionTopic;
+
+public class Temp implements ActionTopic {
 	private String name = "Temp";
 	private String Temp;
 
@@ -15,6 +17,19 @@ public class Temp {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public String getValueTopic(TypeTopic typeTopic) {
+		String str = "--.--";
+		switch (typeTopic) {
+			case Temperature:
+				str = getTemp();
+				break;
+			default:
+				str = "??¿¿";
+		}
+		return str;
 	}
 
 }

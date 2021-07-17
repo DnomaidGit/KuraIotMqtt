@@ -1,15 +1,18 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.global;
 
 public class Status {
-    private ConnectionStatus status = ConnectionStatus.NONE;
-    private TopicStatus topicStatus = TopicStatus.NONE;
+    private ConnectionStatus status;
+    private TopicStatus topicStatus;
     public static final String SPACE = " ";
     public static final String EMPTY = new String();
     public enum ConnectionStatus {CONNECTING, CONNECTED, DISCONNECTING, DISCONNECTED, ERROR, NONE}
     public enum TopicStatus {SUBSCRIBED, UNSUBSCRIBED, PUBLISHED, ERROR, NONE}
 
     private static Status instance = null;
-    private Status(){ }
+    private Status(){
+    	status = ConnectionStatus.NONE;
+    	topicStatus = TopicStatus.NONE;
+    }
     public  static synchronized Status getInst() {
         if (instance==null) {
             instance=new Status();

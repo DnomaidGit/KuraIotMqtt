@@ -2,18 +2,27 @@ package org.eclipse.kura.dnomaid.iot.mqtt.device;
 
 import java.util.ArrayList;
 
+import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.Topic;
 
-public class Device {
+
+
+public class Device implements Constants {
 	private ArrayList<Topic> Topics;
-	private String Gateway;
-	private String Device;
-		
-	public Device(String gateway, String device) {
+	private TypeGateway Gateway;
+	private TypeDevice Device;
+	private GroupList GroupList;
+	private String NameDevice;
+	private String NumberDevice;
+	
+	public Device(TypeGateway gateway, TypeDevice device, String numberDevice, GroupList groupList) {
 		super();
 		Topics = new ArrayList<Topic>();
 		Gateway = gateway;
 		Device = device;
+		GroupList = groupList;
+		NumberDevice = numberDevice;
+		NameDevice = setNameDevice(device, numberDevice);
 	}
 
 	public ArrayList<? extends Topic> getTopics() {
@@ -24,34 +33,44 @@ public class Device {
 		}
 		return Topics;
 		}
+	
 	public void addTopic(Topic topic) {
 		try {
-			topic.setName(topic.getIdFunc()+"/"+Gateway+"/"+Device+"/"+topic.getName());
+			topic.setName(topic.getIdFunc()+"/"+Gateway+"/"+NameDevice+"/"+topic.getName());
 			Topics.add(topic);
 		} catch (Exception e) {
 			System.out.println("Error "+ e);
 		}
 	}
-	
-	public String getGateway() {
+		
+	public TypeGateway getGateway() {
 		return Gateway;
 	}
 
-	public void setGateway(String gateway) {
-		Gateway = gateway;
-	}
-
-	public String getDevice() {
+	public TypeDevice getDevice() {
 		return Device;
 	}
 
-	public void setDevice(String device) {
-		Device = device;
+	public GroupList getGroupList() {
+		return GroupList;
 	}
 	
+	public String getNameDevice() {
+		return NameDevice;
+	}
+
+	
+	public String getNumberDevice() {
+		return NumberDevice;
+	}
+
+	private String setNameDevice(TypeDevice device, String NumberDevice) {
+		return device.name() + "_" + NumberDevice;
+	}
+
 	@Override
 	public String toString() {
-		return Device;
+		return NameDevice;
 	}
 	
 }

@@ -1,6 +1,9 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson;
 
-public class Hum {
+import org.eclipse.kura.dnomaid.iot.mqtt.topic.ActionTopic;
+
+public class Hum implements ActionTopic
+{
 	private String name = "Hum";
 	private String Hum;
 
@@ -17,4 +20,18 @@ public class Hum {
 		return name;
 	}
 
+	@Override
+	public String getValueTopic(TypeTopic typeTopic) {
+		String str = "--.--";
+		switch (typeTopic) {
+			case Humidity:
+				str = getHum();
+				break;
+			default:
+				str = "??¿¿";
+		}
+		return str;
+	}
+
+	
 }

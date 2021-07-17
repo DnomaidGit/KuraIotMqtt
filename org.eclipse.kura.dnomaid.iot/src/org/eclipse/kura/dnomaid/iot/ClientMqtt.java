@@ -92,7 +92,9 @@ public class ClientMqtt implements ConfigurableComponent{
         	}        	
         }
         if (ENABLE) {
-    		mqtt.connection();
+        	if(!Status.getInst().isConnectedOrConnecting()) {
+        		mqtt.connection();
+        	}
     	}else {
     		if(Status.getInst().isConnected()) {
     			mqtt.disconnection();

@@ -1,6 +1,8 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson;
 
-public class POWER {
+import org.eclipse.kura.dnomaid.iot.mqtt.topic.ActionTopic;
+
+public class POWER implements ActionTopic {
 	private String name = "POWER";
 	private String POWER;
 
@@ -15,6 +17,19 @@ public class POWER {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public String getValueTopic(TypeTopic typeTopic) {
+		String str = "--.--";
+		switch (typeTopic) {
+			case Power:
+				str = getPOWER();
+				break;
+			default:
+				str = "??¿¿";
+		}
+		return str;
 	}
 
 }

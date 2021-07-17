@@ -2,9 +2,9 @@ package org.eclipse.kura.dnomaid.iot.mqtt.global;
 
 public interface ConnectionDefaults extends Constants {
   String URI = "tcp://";
-  String SERVER = "localhost";
+  String SERVER = "192.168.1.39";
   int PORT = 1883;
-  String CLIENT_ID = "ClientRashberry"+ID;
+  String CLIENT_ID = "ClientPcId"+ID;
   boolean CLEAN_SESSION = true;
   int PUBLISH_QOS = 0;
   int SUBSCRIBE_QOS = 1;

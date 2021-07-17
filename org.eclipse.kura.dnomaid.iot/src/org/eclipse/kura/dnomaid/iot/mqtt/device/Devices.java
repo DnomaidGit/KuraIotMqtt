@@ -1,41 +1,23 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.device;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.TopicJson;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.TopicNoJson;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.json.AqaraTempJson;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.json.SonoffSNZB02Json;
+import org.eclipse.kura.dnomaid.iot.mqtt.topic.json.TuyaZigBeeSensorJson;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.json.XiaomiZNCZ04LM;
-import org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson.Hum;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson.POWER;
 import org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson.Set;
-import org.eclipse.kura.dnomaid.iot.mqtt.topic.noJson.Temp;
 
 public class Devices implements Constants {	
-    private ArrayList<Device> Devices;
-    private ArrayList<Device> Relays;
-    private Device Device010,Device020,Device030,Device040,Device050;
-    private Device Device110;
-	private Device Device120;
-	private Device Device210;	
-	private Device Device310;	
-
-    private TopicNoJson dev010Topic001,dev010Topic002;
-    private TopicNoJson dev020Topic001,dev020Topic002;
-    private TopicNoJson dev030Topic001,dev030Topic002;
-    private TopicNoJson dev040Topic001,dev040Topic002;
-    private TopicNoJson dev050Topic001,dev050Topic002;
-    private TopicJson dev110Topic001;
-    private TopicJson dev120Topic001;
-    private TopicNoJson dev210Topic001,dev210Topic002;
-    private TopicJson dev310Topic001;
-    private TopicNoJson dev310Topic002;
-    
+    private ArrayList<DeviceConfig> DevicesConfig;
+	private ArrayList<Device> Devices;
 
     private static Devices myGlobal = null;
-
     public  static synchronized Devices getInst() {
         if (myGlobal==null) {
             myGlobal=new Devices();
@@ -43,98 +25,128 @@ public class Devices implements Constants {
         return myGlobal;
     }    
     Devices(){
-		Device010 = new Device(GATEWAY01,DEVICE010);
-		dev010Topic001 = new TopicNoJson(STAT_PREFIX, RELAY011, new POWER());
-		dev010Topic002 = new TopicNoJson(CMND_PREFIX, RELAY011, new POWER());
-		Device010.addTopic(dev010Topic001);
-		Device010.addTopic(dev010Topic002);		
-		Device020 = new Device(GATEWAY01,DEVICE020);
-		dev020Topic001 = new TopicNoJson(STAT_PREFIX, RELAY021, new POWER());
-		dev020Topic002 = new TopicNoJson(CMND_PREFIX, RELAY021, new POWER());		
-		Device020.addTopic(dev020Topic001);
-		Device020.addTopic(dev020Topic002);		
-		Device030 = new Device(GATEWAY01,DEVICE030);
-		dev030Topic001 = new TopicNoJson(STAT_PREFIX, RELAY031, new POWER());
-		dev030Topic002 = new TopicNoJson(CMND_PREFIX, RELAY031, new POWER());		
-		Device030.addTopic(dev030Topic001);
-		Device030.addTopic(dev030Topic002);		
-		Device040 = new Device(GATEWAY01,DEVICE040);
-		dev040Topic001 = new TopicNoJson(STAT_PREFIX, RELAY041, new POWER());
-		dev040Topic002 = new TopicNoJson(CMND_PREFIX, RELAY041, new POWER());		
-		Device040.addTopic(dev040Topic001);
-		Device040.addTopic(dev040Topic002);		
-		Device050 = new Device(GATEWAY01,DEVICE050);
-		dev050Topic001 = new TopicNoJson(STAT_PREFIX, RELAY051, new POWER());
-		dev050Topic002 = new TopicNoJson(CMND_PREFIX, RELAY051, new POWER());		
-		Device050.addTopic(dev050Topic001);
-		Device050.addTopic(dev050Topic002);		
-
-		Device110 = new Device(GATEWAY02,DEVICE110);
-		dev110Topic001 = new TopicJson(STAT_PREFIX,SENSOR111,new SonoffSNZB02Json());
-		Device110.addTopic(dev110Topic001);
-		Device120 = new Device(GATEWAY02,DEVICE120);
-		dev120Topic001 = new TopicJson(STAT_PREFIX,SENSOR121,new AqaraTempJson());		
-		Device120.addTopic(dev120Topic001);
-
-		Device210 = new Device(GATEWAY01,DEVICE210);
-		dev210Topic001 = new TopicNoJson(STAT_PREFIX,SENSOR211,new Temp());
-		dev210Topic002 = new TopicNoJson(STAT_PREFIX,SENSOR212,new Hum());
-		Device210.addTopic(dev210Topic001);
-		Device210.addTopic(dev210Topic002);
-
-		Device310 = new Device(GATEWAY02,DEVICE310);
-		dev310Topic001 = new TopicJson(MIX_PREFIX, SENSOR311, new XiaomiZNCZ04LM());
-		dev310Topic002 = new TopicNoJson(MIX_PREFIX, RELAY311, new Set());		
-		Device310.addTopic(dev310Topic001);
-		Device310.addTopic(dev310Topic002);		
-		
+    	DevicesConfig  = new ArrayList<>();
 		Devices  = new ArrayList<>();
-		Devices.add(Device010);
-		Devices.add(Device020);
-		Devices.add(Device030);
-		Devices.add(Device040);
-		Devices.add(Device050);
-		Devices.add(Device110);
-		Devices.add(Device120);
-		Devices.add(Device210);
-		Devices.add(Device310);
-		Relays  = new ArrayList<>();
-		Relays.add(Device010);
-		Relays.add(Device020);
-		Relays.add(Device030);
-		Relays.add(Device040);
-		Relays.add(Device050);
-		Relays.add(Device310);
-
     }
+    
+    public void newDevice(TypeDevice typeDevice, String numberDevice){
+    	DevicesConfig.add(new DeviceConfig(typeDevice, numberDevice));
+    	selectDevice(typeDevice, numberDevice);
+    }
+    public void deleteDevice(DeviceConfig deviceConfig){     	
+		for (int i = 0; i < getDevices().size(); ++i) {
+			if (deviceConfig.toString().equals(getDevices().get(i).toString())){
+				getDevices().remove(i);
+			}
+		}
+		for (int i = 0; i < getDevicesConfig().size(); ++i) {
+			if (deviceConfig.toString().equals(getDevicesConfig().get(i).toString())){
+				getDevicesConfig().remove(i);
+			}
+		}
+    }
+    
+    public ArrayList<DeviceConfig> getDevicesConfig() {return DevicesConfig;}
 	public ArrayList<Device> getDevices() {return Devices;}
-	public ArrayList<Device> getRelay() {return Relays;}
-
-	public Device getDevice010() {return Device010;}
-	public Device getDevice020() {return Device020;}
-	public Device getDevice030() {return Device030;}
-	public Device getDevice040() {return Device040;}
-	public Device getDevice050() {return Device050;}
-	public Device getDevice110() {return Device110;}
-	public Device getDevice120() {return Device120;}
-	public Device getDevice210() {return Device210;}
-	public Device getDevice310() {return Device310;}
+	public ArrayList<Device> getRelays() {
+		ArrayList<Device> filterList = (ArrayList<Device>) getDevices().stream()
+				  .filter(c -> c.getGroupList().equals(GroupList.Relay) 
+						  || c.getGroupList().equals(GroupList.RelaySensorClimate))
+				  .collect(Collectors.toList()); 		
+		return filterList;		
+		}
+	public ArrayList<Device> getSensorsClimate() {
+		ArrayList<Device> filterList = (ArrayList<Device>) getDevices().stream()
+				  .filter(c -> c.getGroupList().equals(GroupList.SensorClimate) 
+						  || c.getGroupList().equals(GroupList.RelaySensorClimate))
+				  .collect(Collectors.toList()); 		
+		return filterList;
+		}
+	public String getPublishTopicRelay(Integer numberRelay) {
+		String PublishTopicRelay = "PublishTopic01Relay??";
+		if(numberRelay>0&getRelays().size()>=numberRelay) {
+			PublishTopicRelay = getRelays().get(numberRelay-1).getTopics().get(1).getName();
+		}
+		return PublishTopicRelay;
+	}    
 	
-    public TopicNoJson getDev010Topic001() {return dev010Topic001;}
-	public TopicNoJson getDev010Topic002() {return dev010Topic002;}
-	public TopicNoJson getDev020Topic001() {return dev020Topic001;}
-	public TopicNoJson getDev020Topic002() {return dev020Topic002;}
-	public TopicNoJson getDev030Topic001() {return dev030Topic001;}
-	public TopicNoJson getDev030Topic002() {return dev030Topic002;}
-	public TopicNoJson getDev040Topic001() {return dev040Topic001;}
-	public TopicNoJson getDev040Topic002() {return dev040Topic002;}
-	public TopicNoJson getDev050Topic001() {return dev050Topic001;}
-	public TopicNoJson getDev050Topic002() {return dev050Topic002;}
-	public TopicJson getDev110Topic001() {return dev110Topic001;}
-	public TopicJson getDev120Topic001() {return dev120Topic001;}
-	public TopicNoJson getDev210Topic001() {return dev210Topic001;}
-	public TopicNoJson getDev210Topic002() {return dev210Topic002;}
-	public TopicJson getDev310Topic001() {return dev310Topic001;}
-	public TopicNoJson getDev310Topic002() {return dev310Topic002;}
-        
+	private void selectDevice (TypeDevice typeDevice, String numberDevice){
+		String nametopic01 = "";
+		String nametopic02 = "";
+		GroupList groupList;
+		TypeGateway typeGateway;
+		TopicNoJson topicNoJson01;
+		TopicNoJson topicNoJson02;
+		TopicJson topicJson01;
+		Device device;
+		
+		switch (typeDevice) {
+		case SonoffS20:
+			typeGateway = TypeGateway.Router_1;
+			groupList = GroupList.Relay;
+			nametopic01 = groupList+"_1"+"/POWER";
+			nametopic02 = nametopic01;			
+			topicNoJson01 = new TopicNoJson(STAT_PREFIX, nametopic01, new POWER());
+			topicNoJson02 = new TopicNoJson(CMND_PREFIX, nametopic02, new POWER());
+			device = createDevice(typeGateway, typeDevice, numberDevice, groupList, topicNoJson01, topicNoJson02);		
+	    	Devices.add(device);
+			break;
+		case SonoffSNZB02:
+			typeGateway = TypeGateway.CC2531_1;
+			groupList = GroupList.SensorClimate;
+			nametopic01 = groupList+"_1";
+			topicJson01 = new TopicJson(STAT_PREFIX, nametopic01, new SonoffSNZB02Json());
+			device = createDevice(typeGateway, typeDevice, numberDevice, groupList, topicJson01);	
+	    	Devices.add(device);
+			break;
+		case AqaraTemp:
+			typeGateway = TypeGateway.CC2531_1;
+			groupList = GroupList.SensorClimate;
+			nametopic01 = groupList+"_1";
+			topicJson01 = new TopicJson(STAT_PREFIX, nametopic01, new AqaraTempJson());
+			device = createDevice(typeGateway, typeDevice, numberDevice, groupList, topicJson01);	
+	    	Devices.add(device);
+			break;
+		case TuyaZigBeeSensor:
+			typeGateway = TypeGateway.CC2531_1;
+			groupList = GroupList.SensorClimate;
+			nametopic01 = groupList+"_1";
+			topicJson01 = new TopicJson(STAT_PREFIX, nametopic01, new TuyaZigBeeSensorJson());
+			device = createDevice(typeGateway, typeDevice, numberDevice, groupList, topicJson01);	
+	    	Devices.add(device);
+			break;
+		case XiaomiZNCZ04LM:
+			typeGateway = TypeGateway.CC2531_1;
+			groupList = GroupList.RelaySensorClimate;
+			nametopic01 = groupList+"_1";
+			nametopic02 = nametopic01+"/set";
+			topicJson01 = new TopicJson(MIX_PREFIX, nametopic01, new XiaomiZNCZ04LM());
+			topicNoJson02 = new TopicNoJson(MIX_PREFIX, nametopic02, new Set());
+			device = createDevice(typeGateway, typeDevice, numberDevice, groupList, topicJson01, topicNoJson02);		
+	    	Devices.add(device);
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
+	private Device createDevice(TypeGateway gateway, TypeDevice typeDevice, String numberDevice, GroupList groupList, TopicNoJson topic01, TopicNoJson topic02){
+		Device device = new Device(gateway,typeDevice,numberDevice,groupList);
+		device.addTopic(topic01);
+		device.addTopic(topic02);
+		return device;
+	}	
+	private Device createDevice(TypeGateway gateway, TypeDevice typeDevice, String numberDevice, GroupList groupList, TopicJson topic01){
+		Device device = new Device(gateway,typeDevice,numberDevice,groupList);
+		device.addTopic(topic01);		
+		return device;
+	}
+	private Device createDevice(TypeGateway gateway, TypeDevice typeDevice, String numberDevice, GroupList groupList, TopicJson topic01, TopicNoJson topic02){
+		Device device = new Device(gateway,typeDevice,numberDevice,groupList);
+		device.addTopic(topic01);
+		device.addTopic(topic02);
+		return device;
+	}	
+	
 }

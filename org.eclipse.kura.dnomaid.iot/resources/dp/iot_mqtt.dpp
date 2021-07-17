@@ -1,15 +1,15 @@
 #Deployment Plugin Project File
-#Fri Jul 16 20:28:26 CEST 2021
+#Sat Jul 17 16:10:09 CEST 2021
 build.ant.name=<.>/resources/dp/iot_mqtt_build.xml
 build.dp.file=<.>/resources/dp/iot_mqtt.dp
 build.location=
-bundles.0.bundle_path=/home/ivan/eclipse-workspace-dnomaid/org.eclipse.kura.dnomaid.iot/plugin/plugins/org.eclipse.kura.dnomaid.iot_1.0.0.202107162027.jar
+bundles.0.bundle_path=/home/ivan/eclipse-workspace-dnomaid/org.eclipse.kura.dnomaid.iot/plugin/plugins/org.eclipse.kura.dnomaid.iot_1.0.0.202107171609.jar
 bundles.0.customizer=false
 bundles.0.headers.count=0
 bundles.0.missing=false
-bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot_1.0.0.202107162027.jar
+bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot_1.0.0.202107171609.jar
 bundles.0.symbolic_name=org.eclipse.kura.dnomaid.iot;singleton\:\=true
-bundles.0.version=1.0.0.202107162027
+bundles.0.version=1.0.0.202107171609
 bundles.count=1
 certificates.count=0
 general.signbundles=false

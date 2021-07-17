@@ -16,6 +16,8 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants.TypeDevice;
+
 public class Scheduled implements ConfigurableComponent{
 	private Mqtt mqtt;
 	private Thread thread;
@@ -28,17 +30,21 @@ public class Scheduled implements ConfigurableComponent{
     private List <String> messageRelay = new  ArrayList<String>();    
     
     private final ScheduledExecutorService worker;
-    private static boolean updateScheduleSetting;
     
     public Scheduled() {
     	super();
     	this.worker = Executors.newSingleThreadScheduledExecutor();
     	this.mqtt = new Mqtt();
-    	for (int i = 0; i < Devices.getInst().getRelay().size(); i++) {
+    	Devices.getInst().newDevice(TypeDevice.SonoffS20, "1");
+		Devices.getInst().newDevice(TypeDevice.SonoffS20, "2");
+		Devices.getInst().newDevice(TypeDevice.SonoffS20, "3");
+		Devices.getInst().newDevice(TypeDevice.SonoffS20, "4");
+		Devices.getInst().newDevice(TypeDevice.SonoffS20, "5");
+		Devices.getInst().newDevice(TypeDevice.XiaomiZNCZ04LM, "1");
+    	for (int i = 0; i < Devices.getInst().getRelays().size(); i++) {
     		messageRelay.add("OFF");
-    		relays.add(Devices.getInst().getRelay().get(i).getTopics().get(1).getName());
+    		relays.add(Devices.getInst().getRelays().get(i).getTopics().get(1).getName());
     	}
-    	updateScheduleSetting = false;
     }
         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
@@ -61,11 +67,7 @@ public class Scheduled implements ConfigurableComponent{
         			try {
         				Thread.sleep(1000);
         				if(Status.getInst().isConnected()) {
-	        				if(updateScheduleSetting) {
 	        					scheduledRelayPublish();
-	        				}else{
-//	        					logger("##Bundle error:" + APP_ID + " ->" + "Update Schedule Setting NOK");
-	        				}
         				}
 					} catch (Exception e) {
 				        logger("##Bundle error:" + APP_ID + " ->" + e);
@@ -83,7 +85,7 @@ public class Scheduled implements ConfigurableComponent{
         this.worker.shutdown();
     }
     
-    public void updated(Map<String, Object> properties) {
+    private void updated(Map<String, Object> properties) {
         logger("Updated properties...");
         // store the properties received
         if (properties != null) {
@@ -93,17 +95,14 @@ public class Scheduled implements ConfigurableComponent{
 	        		if (properties.get(ls.get(j).getPropertyRelay()) != null) {
 		        		ls.get(j).setValueRelay((String) properties.get(ls.get(j).getPropertyRelay()));
 		                logger("##"+ls.get(j).getValueCmnd()+": "+ls.get(j).getValueRelay());
-		                updateScheduleSetting = true;
 		        	}
 		        	if (properties.get(ls.get(j).getPropertyHour()) != null) {
 		        		ls.get(j).setValueHour((String) properties.get(ls.get(j).getPropertyHour()));
 		                logger("##"+ls.get(j).getValueCmnd()+" hour: "+ls.get(j).getValueHour());
-		                updateScheduleSetting = true;
 		        	}
 		        	if (properties.get(ls.get(j).getPropertyMinute()) != null) {
 		        		ls.get(j).setValueMinute((String) properties.get(ls.get(j).getPropertyMinute()));
 		                logger("##"+ls.get(j).getValueCmnd()+" minute: "+ls.get(j).getValueMinute());
-		                updateScheduleSetting = true;
 		        	}
 	        	}
         	}        	        	
@@ -111,7 +110,7 @@ public class Scheduled implements ConfigurableComponent{
         }
     }
     	
-	public void scheduledRelayPublish() {
+	private void scheduledRelayPublish() {
 		String Hour ="";
 		String Minute ="";
 		String Second ="";
