@@ -18,24 +18,21 @@
          name="iot Dnomaid"
          description="MqttDnomaid --ClientMqtt setting--">
         <Icon resource="OSGI-INF/schedule.png" size="32"/>
-        <!--Connection-->
-  		
+        <!--Connection-->  		
   		<AD id="Enable"
             name="Enable"
             type="Boolean"
             cardinality="0"
             required="true"
             default="false"
-            description="Enable"/>
-  		
+            description="Enable"/>  		
  		<AD id="Server"
             name="Server"
             type="String"
             cardinality="0"
             required="true"
             default="localhost"
-            description="Name server"/>	
-            			
+            description="Name server"/>	            			
   		<AD id="Port"
             name="Port"
             type="Integer"
@@ -44,16 +41,14 @@
             default="1883"
             min="0"
             max="10000"
-            description="Number Port"/>
-                                            
+            description="Number Port"/>    
         <AD id="ClientId"
             name="ClientId"
             type="String"
             cardinality="0"
             required="true"
             default="ClientIdRaspberryPi"
-            description="Name client"/>
-                        
+            description="Name client"/>                        
         <AD id="CleanSession"
             name="CleanSession"
             type="Boolean"
@@ -61,23 +56,32 @@
             required="true"
             default="false"
             description="CleanSession"/>
-            
         <AD id="Username"
             name="Username"
             type="String"
             cardinality="0"
             required="true"
             default="guest"
-            description="Username"/>
-        
+            description="Username"/>        
         <AD id="Password"
             name="Password"
             type="String"
             cardinality="0"
             required="true"
             default="test12"
-            description="Password"/>        
-  		  		
+            description="Password"/>          		  		
+    	<!--Add Device-->
+    	<AD id="1TypeRelay" name="01-Type device" type="String" cardinality="0" required="false" default="none" description="Type device">
+    		<Option label="None" 	value="none"/>
+  			<Option label="SonoffS20" value="SonoffS20"/>
+  			<Option label="XiaomiZNCZ04LM" value="XiaomiZNCZ04LM"/>  			
+  		</AD>
+    	<AD id="1NumberTypeDevice" name="01-Number Type Device" type="String" cardinality="0" required="false" default="1" description="Select Hour" >
+    		<Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6"/>
+		</AD>    	
+  		
+    	
     </OCD>
     <Designate 
     pid="org.eclipse.kura.dnomaid.iot.ClientMqttSetting" 
