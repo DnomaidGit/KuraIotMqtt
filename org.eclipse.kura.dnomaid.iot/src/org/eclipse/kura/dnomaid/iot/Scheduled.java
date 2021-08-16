@@ -147,9 +147,9 @@ public class Scheduled implements ConfigurableComponent{
 		}		
 	}
 	private void logger (String message) {
-		// var/log/kura-console.log
+		//  var/log/kura-console.log
 		System.out.println("::"+ALIAS_APP_ID+"::"+message);
-		// var/log/kura.log
+		//  var/log/kura.log
 		S_LOGGER.info("::"+ALIAS_APP_ID+"::"+message);		
 	}
 
