@@ -25,7 +25,7 @@ public class Scheduled implements ConfigurableComponent{
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
     private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Scheduled";
-    private static final String ALIAS_APP_ID = "Scheduled";
+    private static final String ALIAS_APP_ID = "Scheduled"; //Alias
     private List <String> relays = new  ArrayList<String>();
     private List <String> messageRelay = new  ArrayList<String>();    
     
