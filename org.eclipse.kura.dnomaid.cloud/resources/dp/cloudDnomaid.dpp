@@ -1,0 +1,20 @@
+#Deployment Plugin Project File
+#Sat Jul 31 13:24:07 CEST 2021
+build.ant.name=<.>/resources/dp/cloudDnomaid_build.xml
+build.dp.file=<.>/resources/dp/cloudDnomaid.dp
+build.location=
+bundles.0.bundle_path=/home/ivan/eclipseGitRepos/ExportDeployablePlug-ins/KuraCloud/plugin/plugins/org.eclipse.kura.dnomaid.cloud_0.0.1.jar
+bundles.0.customizer=false
+bundles.0.headers.count=0
+bundles.0.missing=false
+bundles.0.name=bundles/org.eclipse.kura.dnomaid.cloud_0.0.1.jar
+bundles.0.symbolic_name=org.eclipse.kura.dnomaid.cloud;singleton\:\=true
+bundles.0.version=0.0.1
+bundles.count=1
+certificates.count=0
+general.signbundles=false
+headers.other.headers=
+headers.symbolic.name=cloudDnomaid
+headers.version=0.0.1
+resources.count=0
+

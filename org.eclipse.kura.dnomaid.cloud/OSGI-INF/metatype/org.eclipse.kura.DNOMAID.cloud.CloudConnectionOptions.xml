@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, 2018 Eurotech and/or its affiliates
+
+     All rights reserved. This program and the accompanying materials
+     are made available under the terms of the Eclipse Public License v1.0
+     which accompanies this distribution, and is available at
+     http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Eurotech
+
+-->
+<MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
+    <OCD id="org.eclipse.kura.DNOMAID.cloud.CloudConnectionOptions"
+         name="ExamplePublisher"
+         description="Example of a Configuring Kura Application.">
+
+        <Icon resource="http://s3.amazonaws.com/kura-resources/application/icon/applications-other.png" size="32"/>
+        
+        <AD id="Enable"
+            name="Enable"
+            type="Boolean"
+            cardinality="0"
+            required="true"
+            default="false"
+            description="Enable"/>  
+            
+        <AD id="CloudPublisher.target"
+            name="CloudPublisher Target Filter"
+            type="String"
+            cardinality="0"
+            required="true"
+            default="(kura.service.pid=changeme)"
+            description="Specifies, as an OSGi target filter, the pid of the Cloud Publisher used to publish messages to the cloud platform.">
+        </AD>
+
+        <AD id="CloudSubscriber.target"
+            name="CloudSubscriber Target Filter"
+            type="String"
+            cardinality="0"
+            required="true"
+            default="(kura.service.pid=changeme)"
+            description="Specifies, as an OSGi target filter, the pid of the Cloud Subscriber used to receive messages from the cloud platform.">
+        </AD>
+
+        <AD id="publish.rate"
+            name="Publish Rate"
+            type="Integer"
+            cardinality="0"
+            required="true"
+            default="1000"
+            min="1"
+            description="Default message publishing rate in milliseconds (min 1)."/>
+
+        <AD id="test.value.initial"
+            name="Initial Temperature"
+            type="Float"
+            cardinality="0"
+            required="true"
+            default="10"
+            description="Initial value for the test"/>
+
+        <AD id="test.value.increment"
+            name="Temperature Increment"
+            type="Float"
+            cardinality="0"
+            required="true"
+            default="0.1"
+            description="Increment value for the test"/>
+
+
+    </OCD>
+    <Designate pid="org.eclipse.kura.DNOMAID.cloud.CloudConnectionOptions" factoryPid="org.eclipse.kura.DNOMAID.cloud.CloudConnectionOptions">
+        <Object ocdref="org.eclipse.kura.DNOMAID.cloud.CloudConnectionOptions"/>
+    </Designate>
+</MetaData>
