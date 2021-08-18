@@ -18,7 +18,7 @@ public class ClientMqtt implements ConfigurableComponent{
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(ClientMqtt.class);
     private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.ClientMqtt";
-    private static final String ALIAS_APP_ID = "ClientMqtt"; //q
+    private static final String ALIAS_APP_ID = "ClientMqtt"; 
     
     private final ScheduledExecutorService worker;
     private static boolean ENABLE;
