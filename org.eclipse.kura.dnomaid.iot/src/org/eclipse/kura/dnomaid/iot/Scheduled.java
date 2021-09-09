@@ -16,8 +16,6 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants.TypeDevice;
-
 public class Scheduled implements ConfigurableComponent{
 	private Mqtt mqtt;
 	private Thread thread;
@@ -25,9 +23,10 @@ public class Scheduled implements ConfigurableComponent{
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
     private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Scheduled";
-    private static final String ALIAS_APP_ID = "Scheduled"; //Alias
+    private static final String ALIAS_APP_ID = "Scheduled";
     private List <String> relays = new  ArrayList<String>();
-    private List <String> messageRelay = new  ArrayList<String>();    
+    private List <String> messageRelay = new  ArrayList<String>(); 
+    private static boolean MINITRELAYS;
     
     private final ScheduledExecutorService worker;
     
@@ -35,16 +34,7 @@ public class Scheduled implements ConfigurableComponent{
     	super();
     	this.worker = Executors.newSingleThreadScheduledExecutor();
     	this.mqtt = new Mqtt();
-    	Devices.getInst().newDevice(TypeDevice.SonoffS20, "1");
-		Devices.getInst().newDevice(TypeDevice.SonoffS20, "2");
-		Devices.getInst().newDevice(TypeDevice.SonoffS20, "3");
-		Devices.getInst().newDevice(TypeDevice.SonoffS20, "4");
-		Devices.getInst().newDevice(TypeDevice.SonoffS20, "5");
-		Devices.getInst().newDevice(TypeDevice.XiaomiZNCZ04LM, "1");
-    	for (int i = 0; i < Devices.getInst().getRelays().size(); i++) {
-    		messageRelay.add("OFF");
-    		relays.add(Devices.getInst().getRelays().get(i).getTopics().get(1).getName());
-    	}
+    	MINITRELAYS = false;
     }
         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
@@ -66,8 +56,14 @@ public class Scheduled implements ConfigurableComponent{
         		while(true) {
         			try {
         				Thread.sleep(1000);
-        				if(Status.getInst().isConnected()) {
-	        					scheduledRelayPublish();
+        				if(Status.getInst().isConnected()) {	        					
+	        					if(!MINITRELAYS) {
+	        						initRelays();
+	        					}else {
+	        						scheduledRelayPublish();
+	        					}
+        				}else {
+        					resetRelays();
         				}
 					} catch (Exception e) {
 				        logger("##Bundle error:" + APP_ID + " ->" + e);
@@ -109,7 +105,25 @@ public class Scheduled implements ConfigurableComponent{
         logger("...Updated properties done.");
         }
     }
-    	
+ 
+    private void initRelays() {
+    	for (int i = 0; i < Devices.getInst().getRelays().size(); i++) {
+    		messageRelay.add("OFF");
+    		relays.add(Devices.getInst().getRelays().get(i).getTopics().get(1).getName());
+    	}
+        MINITRELAYS=true;	
+    }
+    private void updateRelays() {
+    	relays.clear();
+    	for (int i = 0; i < Devices.getInst().getRelays().size(); i++) {
+    		relays.add(Devices.getInst().getRelays().get(i).getTopics().get(1).getName());
+    	}
+    }
+    private void resetRelays() {
+		messageRelay.clear();
+		relays.clear();	
+        MINITRELAYS=false;	
+    }
 	private void scheduledRelayPublish() {
 		String Hour ="";
 		String Minute ="";
@@ -141,7 +155,13 @@ public class Scheduled implements ConfigurableComponent{
 					}
 				}
 			}
-		}			
+		}
+		for (int i = 0; i < messageRelay.size(); i++) {			
+			if(!messageRelay.get(i).equals("empty")) {
+				updateRelays();
+				break;
+			}
+		}
 		for (int i = 0; i < messageRelay.size(); i++) {			
 			if(!messageRelay.get(i).equals("empty"))mqtt.publish(relays.get(i), messageRelay.get(i));
 		}		

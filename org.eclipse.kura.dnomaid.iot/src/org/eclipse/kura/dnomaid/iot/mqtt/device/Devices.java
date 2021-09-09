@@ -45,7 +45,10 @@ public class Devices implements Constants {
 			}
 		}
     }
-    
+    public void deleteDevices() {
+    	getDevicesConfig().clear();
+    	getDevices().clear();
+    }
     public ArrayList<DeviceConfig> getDevicesConfig() {return DevicesConfig;}
 	public ArrayList<Device> getDevices() {return Devices;}
 	public ArrayList<Device> getRelays() {

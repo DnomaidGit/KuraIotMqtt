@@ -1,14 +1,15 @@
 package org.eclipse.kura.dnomaid.iot;
 
-
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.kura.configuration.ConfigurableComponent;
 import org.eclipse.kura.dnomaid.iot.mqtt.Mqtt;
+import org.eclipse.kura.dnomaid.iot.mqtt.device.Devices;
 import org.eclipse.kura.dnomaid.iot.mqtt.global.ConnectionConstants;
 import org.eclipse.kura.dnomaid.iot.mqtt.global.Status;
+import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants.TypeDevice;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class ClientMqtt implements ConfigurableComponent{
     
     private final ScheduledExecutorService worker;
     private static boolean ENABLE;
+    private static int MAXNUMBDEV=6;
     
     public ClientMqtt() {
     	super();
@@ -89,7 +91,21 @@ public class ClientMqtt implements ConfigurableComponent{
         		logger("## "+ APP_ID +" Password:::::>> "+ ConnectionConstants.getInst().getPassword());
         	}else {
         		logger("## "+ APP_ID +" Password:::::>> "+ "null");        		
-        	}        	
+        	}
+        	deleteDevices();	
+        	for (int i = 1; i <= MAXNUMBDEV; i++) {
+        		addDevice((String)properties.get(i+"TypeRelay"),(String)properties.get(i+"NumberTypeDevice"));
+        		if(properties.get(i+"TypeRelay") != null){
+            		logger("## "+ APP_ID +" "+i+"TypeRelay:::::>> "+ properties.get(i+"TypeRelay"));
+            	}else {
+            		logger("## "+ APP_ID +" "+i+"TypeRelay:::::>> "+ "null");        		
+            	}        
+            	if(properties.get(i+"NumberTypeDevice") != null){
+            		logger("## "+ APP_ID +" "+i+"NumberTypeDevice:::::>> "+ properties.get(i+"NumberTypeDevice"));
+            	}else {
+            		logger("## "+ APP_ID +" "+i+"NumberTypeDevice:::::>> "+ "null");        		
+            	}        		
+			}
         }
         if (ENABLE) {
         	if(!Status.getInst().isConnectedOrConnecting()) {
@@ -97,11 +113,21 @@ public class ClientMqtt implements ConfigurableComponent{
         	}
     	}else {
     		if(Status.getInst().isConnected()) {
-    			mqtt.disconnection();
-    		}
+    			mqtt.disconnection();    			    			
+    		}   		
     	}
         logger("...Updated properties done."+ APP_ID);
     }
+
+    private void addDevice(String typeDevice, String numberDevice) {
+    	if(typeDevice!=null & numberDevice!=null)
+    	Devices.getInst().newDevice(TypeDevice.valueOf(typeDevice), numberDevice);
+    }
+    
+    private void deleteDevices() {
+    	Devices.getInst().deleteDevices();
+    }
+    
 	private void logger (String message) {
 		// var/log/kura-console.log
 		System.out.println("::"+ALIAS_APP_ID+"::"+message);
