@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" modified="updated" name="org.eclipse.kura.DNOMAID.iot.mqtt.ScheduleSetting">
+   <implementation class="org.eclipse.kura.dnomaid.iot.mqtt.schedule.Scheduled"/>
+   <service>
+      <provide interface="org.eclipse.kura.configuration.ConfigurableComponent"/>
+   </service>
+   <reference bind="setIntClientMqtt" cardinality="1..1" interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt" name="IntClientMqtt" policy="static"/>
+   <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.mqtt.schedule.Scheduled"/>
+</scr:component>

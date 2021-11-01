@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Api
+Bundle-SymbolicName: org.eclipse.kura.dnomaid.iot.mqtt.api;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.eclipse.kura.dnomaid.iot.mqtt.api
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.kura.dnomaid.iot.mqtt.api
+Bundle-ActivationPolicy: lazy
