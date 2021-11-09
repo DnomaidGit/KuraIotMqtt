@@ -1,16 +1,23 @@
 #Deployment Plugin Project File
-#Mon Nov 01 20:44:30 CET 2021
+#Tue Nov 09 20:55:46 CET 2021
 build.ant.name=<.>/resources/dp/clientMqttDnomaid_build.xml
 build.dp.file=<.>/resources/dp/clientMqttDnomaid.dp
 build.location=
-bundles.0.bundle_path=<.>/META-INF/exportPlugins/plugins/org.eclipse.kura.dnomaid.iot.mqtt_1.0.0.202111012043.jar
+bundles.0.bundle_path=<.>/META-INF/exportPlugins/plugins/org.eclipse.kura.dnomaid.iot.mqtt_1.0.0.202111092055.jar
 bundles.0.customizer=false
 bundles.0.headers.count=0
 bundles.0.missing=false
-bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot.mqtt_1.0.0.202111012043.jar
+bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot.mqtt_1.0.0.202111092055.jar
 bundles.0.symbolic_name=org.eclipse.kura.dnomaid.iot.mqtt;singleton\:\=true
-bundles.0.version=1.0.0.202111012043
-bundles.count=1
+bundles.0.version=1.0.0.202111092055
+bundles.1.bundle_path=<.>/resources/plugins/org.eclipse.paho.client.mqttv3_1.2.2.jar
+bundles.1.customizer=false
+bundles.1.headers.count=0
+bundles.1.missing=false
+bundles.1.name=bundles/org.eclipse.paho.client.mqttv3_1.2.2.jar
+bundles.1.symbolic_name=org.eclipse.paho.client.mqttv3
+bundles.1.version=1.2.2
+bundles.count=2
 certificates.count=0
 general.signbundles=false
 headers.other.headers=
