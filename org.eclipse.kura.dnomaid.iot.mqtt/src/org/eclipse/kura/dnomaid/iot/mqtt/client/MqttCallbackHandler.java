@@ -1,12 +1,11 @@
 package org.eclipse.kura.dnomaid.iot.mqtt.client;
 
-import org.eclipse.kura.dnomaid.iot.mqtt.client.Connection;
 import org.eclipse.kura.dnomaid.iot.mqtt.device.Devices;
 import org.eclipse.kura.dnomaid.iot.mqtt.global.Status;
-
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
 
 public class MqttCallbackHandler implements MqttCallback {
   private boolean knownTopic = false;
@@ -46,5 +45,7 @@ public class MqttCallbackHandler implements MqttCallback {
     if(!knownTopic)System.out.println("Unknown topic::>"+topic);
   }
   @Override
-  public void deliveryComplete(IMqttDeliveryToken token) { }
+  public void deliveryComplete(IMqttDeliveryToken arg0) {
+	  // TODO Auto-generated method stub	
+  }
 }
