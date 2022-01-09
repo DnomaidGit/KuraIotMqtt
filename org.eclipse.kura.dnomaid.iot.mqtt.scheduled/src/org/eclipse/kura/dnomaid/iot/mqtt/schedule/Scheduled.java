@@ -16,11 +16,12 @@ import org.slf4j.LoggerFactory;
 
 public class Scheduled implements ConfigurableComponent{
 	private Thread thread;
-	private List<ScheduleRelay> ls = new ArrayList<ScheduleRelay>();
+	private List<ScheduleSetting> scheduleSetting = new ArrayList<ScheduleSetting>();
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
     private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Scheduled";
     private static final String ALIAS_APP_ID = "Scheduled";
+    private static final Integer NUMBERSCHEDULE = 9;
     private List <String> relays = new  ArrayList<String>();
     private List <String> messageRelay = new  ArrayList<String>(); 
     private static boolean MINITRELAYS;
@@ -49,16 +50,7 @@ public class Scheduled implements ConfigurableComponent{
     // Activation APIs
     // ----------------------------------------------------------------         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
-    	logger("##Active component"); 
-    	ls.add(new ScheduleRelay(1));
-    	ls.add(new ScheduleRelay(2));
-    	ls.add(new ScheduleRelay(3));
-    	ls.add(new ScheduleRelay(4));
-    	ls.add(new ScheduleRelay(5));
-    	ls.add(new ScheduleRelay(6));
-    	ls.add(new ScheduleRelay(7));
-    	ls.add(new ScheduleRelay(8));
-    	ls.add(new ScheduleRelay(9));
+    	logger("##Active component"); 	
     	updated(properties);
         logger("##Bundle " + APP_ID + " has started!");
         thread =  new Thread(new Runnable() {
@@ -66,7 +58,8 @@ public class Scheduled implements ConfigurableComponent{
         	public void run() {
         		while(true) {
         			try {
-        				Thread.sleep(1000);
+        				Thread.sleep(1000);        				
+        				S_LOGGER.info("{} -> Number device: {}",refIntClientMqtt.numberRelay());
         				if(refIntClientMqtt.isConnected()) {	        					
 	        					if(!MINITRELAYS) {
 	        						initRelays();
@@ -76,8 +69,9 @@ public class Scheduled implements ConfigurableComponent{
         				}else {
         					resetRelays();
         				}
+        				
 					} catch (Exception e) {
-				        logger("##Bundle error:" + APP_ID + " ->" + e);
+						S_LOGGER.error("{} -> Error runnable: {}",ALIAS_APP_ID,e.getCause());
 						e.printStackTrace();
 					}        			
         		}
@@ -93,26 +87,10 @@ public class Scheduled implements ConfigurableComponent{
     private void updated(Map<String, Object> properties) {
         logger("Updated properties...");
         // store the properties received
-        if (properties != null) {
-        	for (int j = 0; j < ls.size(); j++) {
-	        	if (properties.get(ls.get(j).getPropertyCmnd()) != null) {
-	        		ls.get(j).setValueCmnd((String) properties.get(ls.get(j).getPropertyCmnd()));
-	        		if (properties.get(ls.get(j).getPropertyRelay()) != null) {
-		        		ls.get(j).setValueRelay((String) properties.get(ls.get(j).getPropertyRelay()));
-		                logger("##"+ls.get(j).getValueCmnd()+": "+ls.get(j).getValueRelay());
-		        	}
-		        	if (properties.get(ls.get(j).getPropertyHour()) != null) {
-		        		ls.get(j).setValueHour((String) properties.get(ls.get(j).getPropertyHour()));
-		                logger("##"+ls.get(j).getValueCmnd()+" hour: "+ls.get(j).getValueHour());
-		        	}
-		        	if (properties.get(ls.get(j).getPropertyMinute()) != null) {
-		        		ls.get(j).setValueMinute((String) properties.get(ls.get(j).getPropertyMinute()));
-		                logger("##"+ls.get(j).getValueCmnd()+" minute: "+ls.get(j).getValueMinute());
-		        	}
-	        	}
-        	}        	        	
-        logger("...Updated properties done.");
-        }
+    	scheduleSetting.clear();
+    	for (int i = 1; i <= NUMBERSCHEDULE; i++) {
+    		scheduleSetting.add(new ScheduleSetting(properties, i));
+		}
     }
     
     // ----------------------------------------------------------------
@@ -120,23 +98,25 @@ public class Scheduled implements ConfigurableComponent{
     // ----------------------------------------------------------------
     private void initRelays() {
     	try {
-			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
+//			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
+			for (int i = 0; i < 2; i++) {
 				messageRelay.add("OFF");
 				relays.add(refIntClientMqtt.nameRelay(i));
 			}
 		} catch (MessageException e) {
-			logger("##Bundle error:" + APP_ID + " ->" + e);
+			S_LOGGER.error("{} -> Error initialize relays: {}",ALIAS_APP_ID,e.getCause());
 		}
         MINITRELAYS=true;	
     }
     private void updateRelays() {
     	relays.clear();
     	try {
-			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
+//			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
+			for (int i = 0; i < 2; i++) {
 				relays.add(refIntClientMqtt.nameRelay(i));
 			}
 		} catch (MessageException e) {
-			logger("##Bundle error:" + APP_ID + " ->" + e);
+			S_LOGGER.error("{} -> Error update relays: {}",ALIAS_APP_ID,e.getCause());
 		}
     }
     private void resetRelays() {
@@ -145,51 +125,66 @@ public class Scheduled implements ConfigurableComponent{
         MINITRELAYS=false;	
     }
 	private void scheduledRelayPublish() {
-		String Hour ="";
-		String Minute ="";
-		String Second ="";
+		String Hour = "--",Minute = "--",Second ="--";		
+		//Time
 		try {
 				LocalDateTime now = LocalDateTime.now();
 				Hour = String.valueOf(now.getHour());
 				Minute = String.valueOf(now.getMinute());
 				Second = String.valueOf(now.getSecond());
-				if(Second.equals("0"))logger("##scheduledRelay LocalDateTime: " + Hour + " : " + Minute);				
+				if(Second.equals("0")) {
+					S_LOGGER.info("{} -> Time {} : {}",ALIAS_APP_ID,Hour,Minute);
+				}							
 			} catch (Exception e) {
-		        logger("##Bundle error:" + APP_ID + " ->" + e);
-				e.printStackTrace();
-			}	
+				S_LOGGER.error("{} -> Error time: {}",ALIAS_APP_ID,e.getCause());				
+			}
+		logger("## message relay size: "+ messageRelay.size());
+		logger("## relays size: "+ relays.size());
+//		logger("## ls size: "+ ls.size());
+		//Initialize list
 		for (int i = 0; i < messageRelay.size(); i++) {messageRelay.set(i, "empty");}		
-
-		for(int j = 0; j < ls.size(); j++) {
-			if (!ls.get(j).getValueRelay().equals("none")) {
-				if(ls.get(j).getValueHour().equals(Hour)&ls.get(j).getValueMinute().equals(Minute)&"0".equals(Second)) {
-					logger("## "+ls.toString()+": "+ls.get(j).getValueCmnd()+" "+ls.get(j).getValueRelay());
+        //Scheduled
+		for(int j = 0; j < scheduleSetting.size(); j++) {
+			if (!scheduleSetting.get(j).getRelay().equals("none")) {
+				if(scheduleSetting.get(j).getHour().equals(Hour)&scheduleSetting.get(j).getMinute().equals(Minute)&"0".equals(Second)) {
+					logger("## "+scheduleSetting.toString()+": "+scheduleSetting.get(j).getCmnd()+" "+scheduleSetting.get(j).getRelay());
 					for (int i = 0; i < messageRelay.size(); i++) {
 						int numRelay=i+1;
-						if (ls.get(j).getValueRelay().equals("relay0"+numRelay)) messageRelay.set(i,ls.get(j).getValueCmnd());
+						if (scheduleSetting.get(j).getRelay().equals("relay0"+numRelay)) messageRelay.set(i,scheduleSetting.get(j).getCmnd());
 					}
-					if (ls.get(j).getValueRelay().equals("all")) {
+					if (scheduleSetting.get(j).getRelay().equals("all")) {
 						for (int i = 0; i < messageRelay.size(); i++) {
-							messageRelay.set(i, ls.get(j).getValueCmnd());
+							messageRelay.set(i, scheduleSetting.get(j).getCmnd());
 						}	
 					}
 				}
 			}
 		}
+		//Update message
+		/*
 		for (int i = 0; i < messageRelay.size(); i++) {			
 			if(!messageRelay.get(i).equals("empty")) {
 				updateRelays();
 				break;
 			}
 		}
+		*/
+		//Publish message
+		
 		for (int i = 0; i < messageRelay.size(); i++) {			
 			if(!messageRelay.get(i).equals("empty"))
 				try {
-					refIntClientMqtt.publish(relays.get(i), messageRelay.get(i));
+					Integer numberRelay = i + 1; 
+					String alias = "relay0" + numberRelay;
+					//refIntClientMqtt.publish(relays.get(i), messageRelay.get(i));
+					refIntClientMqtt.publish(alias, messageRelay.get(i));
+					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,messageRelay.get(i));
 				} catch (MessageException e) {
-					logger("##Bundle error:" + APP_ID + " ->" + e);
+					S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());
 				}
-		}		
+		}
+				
+		
 	}
 	private void logger (String message) {
 		//  var/log/kura-console.log

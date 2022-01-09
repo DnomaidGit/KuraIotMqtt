@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+    Copyright (c) 2011, 2018 Eurotech and/or its affiliates
+
+     All rights reserved. This program and the accompanying materials
+     are made available under the terms of the Eclipse Public License v1.0
+     which accompanies this distribution, and is available at
+     http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Eurotech
+
+-->
+<MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
+    <OCD id="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting"
+         name="deviceDnomaid"
+         description="MqttDeviceDnomaid --MqttDevice setting--">
+    	<!--Add Device-->
+    	<AD id="enable"
+            name="Enable"
+            type="Boolean"
+            cardinality="0"
+            required="true"
+            default="false"
+            description="Enable"/>
+    	<AD id="typeDevice" name="Type device" type="String" cardinality="0" required="false" default="unknown" description="Select type device">
+  			<Option label="SonoffS20" value="SonoffS20"/>
+  			<Option label="XiaomiZNCZ04LM" value="XiaomiZNCZ04LM"/>  			
+  		</AD>
+    	<AD id="numberDevice" name="Number device" type="String" cardinality="0" required="false" default="0" description="Select number device" >
+    		<Option label="01" 	value="1" /><Option label="02" 	value="2" /><Option label="03" 	value="3" /><Option label="04" 	value="4" />
+    		<Option label="05" 	value="5" /><Option label="06" 	value="6"/>
+		</AD>  
+    	<AD id="aliasDevice" name="Alias device" type="String" cardinality="0" required="false" default="relay00" description="Select alias device">
+  			<Option label="Relay01" value="relay01"/>
+  			<Option label="Relay02" value="relay02"/>
+  			<Option label="Relay03" value="relay03"/>
+  			<Option label="Relay04" value="relay04"/>
+  			<Option label="Relay05" value="relay05"/>
+  			<Option label="Relay06" value="relay06"/>  			
+  		</AD>		  	
+    </OCD>
+    <Designate 
+    pid="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting" factoryPid="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting">
+        <Object ocdref="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting"/>
+    </Designate>
+</MetaData>

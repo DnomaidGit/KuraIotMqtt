@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.kura.configuration.ConfigurableComponent;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt;
+import org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice;
 import org.eclipse.kura.dnomaid.iot.mqtt.device.Devices;
 import org.eclipse.kura.dnomaid.iot.mqtt.global.ConnectionConstants;
 import org.eclipse.kura.dnomaid.iot.mqtt.global.Constants.TypeDevice;
@@ -14,7 +15,7 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ClientMqtt implements ConfigurableComponent, IntClientMqtt{
+public class ClientMqtt implements ConfigurableComponent, IntClientMqtt, IntMqttDevice{
 	private Mqtt mqtt;
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(ClientMqtt.class);
@@ -92,9 +93,13 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt{
         	}else {
         		logger("## "+ APP_ID +" Password:::::>> "+ "null");        		
         	}
-        	deleteDevices();	
+        	/*
+        	Devices.getInst().deleteDevices();	
         	for (int i = 1; i <= MAXNUMBDEV; i++) {
-        		addDevice((String)properties.get(i+"TypeRelay"),(String)properties.get(i+"NumberTypeDevice"));
+        		String type = (String)properties.get(i+"TypeRelay");
+        		String number = (String)properties.get(i+"NumberTypeDevice");
+        		String alias = "relay0"+i;
+        		addDevice(type, number, alias);
         		if(properties.get(i+"TypeRelay") != null){
             		logger("## "+ APP_ID +" "+i+"TypeRelay:::::>> "+ properties.get(i+"TypeRelay"));
             	}else {
@@ -106,6 +111,7 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt{
             		logger("## "+ APP_ID +" "+i+"NumberTypeDevice:::::>> "+ "null");        		
             	}        		
 			}
+			*/
         }
         if (ENABLE) {
         	if(!Status.getInst().isConnectedOrConnecting()) {
@@ -122,12 +128,12 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt{
     // ----------------------------------------------------------------
     // Private Methods
     // ----------------------------------------------------------------
-    private void addDevice(String typeDevice, String numberDevice) {
+    private void addDevice(String typeDevice, String numberDevice, String aliasDevice) {
     	if(typeDevice!=null & numberDevice!=null)
-    	Devices.getInst().newDevice(TypeDevice.valueOf(typeDevice), numberDevice);
+    	Devices.getInst().newDevice(TypeDevice.valueOf(typeDevice), numberDevice, aliasDevice);
     }    
-    private void deleteDevices() {
-    	Devices.getInst().deleteDevices();
+    private void deleteDevice(String typeDevice, String numberDevice) {
+    	Devices.getInst().deleteDevice(typeDevice, numberDevice);;
     }    
 	private void logger (String message) {
 		// var/log/kura-console.log
@@ -153,7 +159,35 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt{
 	}
 	@Override
 	public void publish(String relay, String message) throws MessageException {
-		mqtt.publish(relay, message);		
+		S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,relay,message);
+		for (int i = 0; i < Devices.getInst().getDevicesConfig().size(); i++) {
+			String nameDevice = "?";
+			//logger("Relay send: " + relay + "Device 1 config alias: " + Devices.getInst().getDevicesConfig().get(1).getAliasDevice());
+			if(Devices.getInst().getDevicesConfig().get(i).getAliasDevice().equals(relay)) {
+				nameDevice = Devices.getInst().getDevicesConfig().get(i).toString();
+			}
+			String topicDevice = "?";
+			//logger("Name device1: " + nameDevice + "Topic device 1: " + Devices.getInst().getRelays().get(1).getTopics().toString());
+			if(Devices.getInst().getRelays().get(i).getNameDevice().equals(nameDevice)) {
+				topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(2).getName();
+			}
+			if(!topicDevice.equals("?")) {
+				S_LOGGER.info("{} -> Publish topic: {} - message: {}",ALIAS_APP_ID,topicDevice,message);
+				mqtt.publish(topicDevice, message);				
+			}						
+		}			
+	}
+
+	@Override
+	public void addMqttDevice(String typeDevice, String numberDevice, String aliasDevice) throws MessageMqttDeviceException {
+		S_LOGGER.info("{} -> add Mqtt Device:> type:{} - number: {} - alias: {}",ALIAS_APP_ID,typeDevice,numberDevice);
+		addDevice(typeDevice, numberDevice, aliasDevice);		
+	}
+
+	@Override
+	public void deleteMqttDevice(String typeRelay, String NumberTypeDevice) throws MessageMqttDeviceException {
+		S_LOGGER.info("{} -> delete Mqtt Device:> type:{} - number: {}",ALIAS_APP_ID,typeRelay,NumberTypeDevice);
+		deleteDevice(typeRelay,NumberTypeDevice);		
 	} 
 	
 }

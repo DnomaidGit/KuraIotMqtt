@@ -29,8 +29,8 @@ public class Devices implements Constants {
 		Devices  = new ArrayList<>();
     }
     
-    public void newDevice(TypeDevice typeDevice, String numberDevice){
-    	DevicesConfig.add(new DeviceConfig(typeDevice, numberDevice));
+    public void newDevice(TypeDevice typeDevice, String numberDevice, String aliasDevice){
+    	DevicesConfig.add(new DeviceConfig(typeDevice, numberDevice, aliasDevice));
     	selectDevice(typeDevice, numberDevice);
     }
     public void deleteDevice(DeviceConfig deviceConfig){     	
@@ -45,6 +45,20 @@ public class Devices implements Constants {
 			}
 		}
     }
+    public void deleteDevice(String typeDevice, String numberDevice){
+    	String nameDevice = typeDevice +"_"+numberDevice;
+		for (int i = 0; i < getDevices().size(); ++i) {
+			if (nameDevice.equals(getDevices().get(i).toString())){
+				getDevices().remove(i);
+			}
+		}
+		for (int i = 0; i < getDevicesConfig().size(); ++i) {
+			if (nameDevice.equals(getDevicesConfig().get(i).toString())){
+				getDevicesConfig().remove(i);
+			}
+		}
+    }
+
     public void deleteDevices() {
     	getDevicesConfig().clear();
     	getDevices().clear();

@@ -12,5 +12,5 @@ public interface IntClientMqtt {
 	String nameRelay(int number) throws MessageException;
 	
 	void publish(String relay, String message) throws MessageException;
-
+		
 }

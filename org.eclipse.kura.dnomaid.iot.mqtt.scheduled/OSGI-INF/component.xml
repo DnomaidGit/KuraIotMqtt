@@ -4,6 +4,6 @@
    <service>
       <provide interface="org.eclipse.kura.configuration.ConfigurableComponent"/>
    </service>
-   <reference bind="setIntClientMqtt" cardinality="1..1" interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt" name="IntClientMqtt" policy="static"/>
+   <reference bind="setIntClientMqtt" cardinality="1..1" interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt" name="IntClientMqtt" policy="static" unbind="unsetIntClientMqtt"/>
    <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.mqtt.schedule.Scheduled"/>
 </scr:component>

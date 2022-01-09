@@ -344,7 +344,7 @@
 		</AD>
     </OCD>
     <Designate 
-    pid="org.eclipse.kura.DNOMAID.iot.mqtt.ScheduleSetting" >
+    pid="org.eclipse.kura.DNOMAID.iot.mqtt.ScheduleSetting" factoryPid="org.eclipse.kura.DNOMAID.iot.mqtt.ScheduleSetting" >
         <Object ocdref="org.eclipse.kura.DNOMAID.iot.mqtt.ScheduleSetting"/>
     </Designate>
 </MetaData>

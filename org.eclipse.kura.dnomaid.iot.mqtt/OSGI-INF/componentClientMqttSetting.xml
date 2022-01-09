@@ -4,6 +4,7 @@
    <service>
       <provide interface="org.eclipse.kura.configuration.ConfigurableComponent"/>
       <provide interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt"/>
+      <provide interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice"/>
    </service>
    <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.ClientMqttSetting"/>
 </scr:component>
