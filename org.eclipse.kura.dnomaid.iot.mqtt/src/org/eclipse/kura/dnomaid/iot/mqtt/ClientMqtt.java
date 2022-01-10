@@ -169,7 +169,7 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt, IntMqtt
 			String topicDevice = "?";
 			//logger("Name device1: " + nameDevice + "Topic device 1: " + Devices.getInst().getRelays().get(1).getTopics().toString());
 			if(Devices.getInst().getRelays().get(i).getNameDevice().equals(nameDevice)) {
-				topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(2).getName();
+				topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(1).getName();
 			}
 			if(!topicDevice.equals("?")) {
 				S_LOGGER.info("{} -> Publish topic: {} - message: {}",ALIAS_APP_ID,topicDevice,message);
