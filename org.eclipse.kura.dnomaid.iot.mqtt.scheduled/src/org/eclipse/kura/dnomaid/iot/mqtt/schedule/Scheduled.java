@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -19,12 +21,13 @@ public class Scheduled implements ConfigurableComponent{
 	private List<ScheduleSetting> scheduleSetting = new ArrayList<ScheduleSetting>();
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
-    private static final String APP_ID = "org.eclipse.kura.dnomaid.iot.Scheduled";
     private static final String ALIAS_APP_ID = "Scheduled";
-    private static final Integer NUMBERSCHEDULE = 9;
-    private List <String> relays = new  ArrayList<String>();
+    private static final Integer NUMBER_SCHEDULE = 9;
+    private static final Integer NUMBER_RELAY = 6;
+    private static final String ALIAS_RELAY = "relay0";
+
     private List <String> messageRelay = new  ArrayList<String>(); 
-    private static boolean MINITRELAYS;
+    private boolean init;
     
     private final ScheduledExecutorService worker;
     
@@ -33,7 +36,7 @@ public class Scheduled implements ConfigurableComponent{
     public Scheduled() {
     	super();
     	this.worker = Executors.newSingleThreadScheduledExecutor();
-    	MINITRELAYS = false;
+    	init = false;
     }
     
 	// ----------------------------------------------------------------
@@ -50,9 +53,8 @@ public class Scheduled implements ConfigurableComponent{
     // Activation APIs
     // ----------------------------------------------------------------         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
-    	logger("##Active component"); 	
-    	updated(properties);
-        logger("##Bundle " + APP_ID + " has started!");
+    	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID);         	
+    	updated(properties);        
         thread =  new Thread(new Runnable() {
         	@Override
         	public void run() {
@@ -61,8 +63,8 @@ public class Scheduled implements ConfigurableComponent{
         				Thread.sleep(1000);        				
         				S_LOGGER.info("{} -> Number device: {}",refIntClientMqtt.numberRelay());
         				if(refIntClientMqtt.isConnected()) {	        					
-	        					if(!MINITRELAYS) {
-	        						initRelays();
+	        					if(!init) {
+	        						init();
 	        					}else {
 	        						scheduledRelayPublish();
 	        					}
@@ -77,53 +79,46 @@ public class Scheduled implements ConfigurableComponent{
         		}
         	}
         });
-        thread.start();        
+        thread.start(); 
+        S_LOGGER.info("Activating {} ... Done.", ALIAS_APP_ID);
     }
     protected void deactivate(ComponentContext componentContext) {  	
-    	logger("##Desactive component");    	
-        logger("Bundle " + APP_ID + " has stopped!");
+    	S_LOGGER.info("Deactivating {} ...", ALIAS_APP_ID);   	        
         this.worker.shutdown();
+        S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
     }
     private void updated(Map<String, Object> properties) {
-        logger("Updated properties...");
-        // store the properties received
+    	S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
+    	dumpProperties("Update", properties);
     	scheduleSetting.clear();
-    	for (int i = 1; i <= NUMBERSCHEDULE; i++) {
+    	for (int i = 1; i <= NUMBER_SCHEDULE; i++) {
     		scheduleSetting.add(new ScheduleSetting(properties, i));
 		}
+    	S_LOGGER.info("Updated "+ ALIAS_APP_ID +"... Done.");
     }
     
     // ----------------------------------------------------------------
     // Private Methods
     // ----------------------------------------------------------------
-    private void initRelays() {
-    	try {
-//			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
-			for (int i = 0; i < 2; i++) {
-				messageRelay.add("OFF");
-				relays.add(refIntClientMqtt.nameRelay(i));
-			}
-		} catch (MessageException e) {
-			S_LOGGER.error("{} -> Error initialize relays: {}",ALIAS_APP_ID,e.getCause());
-		}
-        MINITRELAYS=true;	
+    private static void dumpProperties(final String action, final Map<String, Object> properties) {
+        final Set<String> keys = new TreeSet<>(properties.keySet());
+        for (final String key : keys) {
+            S_LOGGER.info("{} - {}: {}", action, key, properties.get(key));
+        }
     }
-    private void updateRelays() {
-    	relays.clear();
-    	try {
-//			for (int i = 0; i < refIntClientMqtt.numberRelay(); i++) {
-			for (int i = 0; i < 2; i++) {
-				relays.add(refIntClientMqtt.nameRelay(i));
-			}
-		} catch (MessageException e) {
-			S_LOGGER.error("{} -> Error update relays: {}",ALIAS_APP_ID,e.getCause());
-		}
+    
+    private void init() {
+		for (int i = 0; i < NUMBER_RELAY; i++) {
+			messageRelay.add("OFF");
+		}		
+        init=true;	
     }
+    
     private void resetRelays() {
 		messageRelay.clear();
-		relays.clear();	
-        MINITRELAYS=false;	
+        init=false;	
     }
+    
 	private void scheduledRelayPublish() {
 		String Hour = "--",Minute = "--",Second ="--";		
 		//Time
@@ -138,19 +133,17 @@ public class Scheduled implements ConfigurableComponent{
 			} catch (Exception e) {
 				S_LOGGER.error("{} -> Error time: {}",ALIAS_APP_ID,e.getCause());				
 			}
-		logger("## message relay size: "+ messageRelay.size());
-		logger("## relays size: "+ relays.size());
-//		logger("## ls size: "+ ls.size());
 		//Initialize list
 		for (int i = 0; i < messageRelay.size(); i++) {messageRelay.set(i, "empty");}		
         //Scheduled
 		for(int j = 0; j < scheduleSetting.size(); j++) {
 			if (!scheduleSetting.get(j).getRelay().equals("none")) {
 				if(scheduleSetting.get(j).getHour().equals(Hour)&scheduleSetting.get(j).getMinute().equals(Minute)&"0".equals(Second)) {
-					logger("## "+scheduleSetting.toString()+": "+scheduleSetting.get(j).getCmnd()+" "+scheduleSetting.get(j).getRelay());
+					S_LOGGER.info("{} -> Schedule Setting: {} - Cmnd: {} - Relay: {}"
+							      ,ALIAS_APP_ID,scheduleSetting.toString(),scheduleSetting.get(j).getCmnd(),scheduleSetting.get(j).getRelay());
 					for (int i = 0; i < messageRelay.size(); i++) {
 						int numRelay=i+1;
-						if (scheduleSetting.get(j).getRelay().equals("relay0"+numRelay)) messageRelay.set(i,scheduleSetting.get(j).getCmnd());
+						if (scheduleSetting.get(j).getRelay().equals(ALIAS_RELAY+numRelay)) messageRelay.set(i,scheduleSetting.get(j).getCmnd());
 					}
 					if (scheduleSetting.get(j).getRelay().equals("all")) {
 						for (int i = 0; i < messageRelay.size(); i++) {
@@ -160,23 +153,13 @@ public class Scheduled implements ConfigurableComponent{
 				}
 			}
 		}
-		//Update message
-		/*
-		for (int i = 0; i < messageRelay.size(); i++) {			
-			if(!messageRelay.get(i).equals("empty")) {
-				updateRelays();
-				break;
-			}
-		}
-		*/
-		//Publish message
 		
+		//Publish message		
 		for (int i = 0; i < messageRelay.size(); i++) {			
 			if(!messageRelay.get(i).equals("empty"))
 				try {
 					Integer numberRelay = i + 1; 
-					String alias = "relay0" + numberRelay;
-					//refIntClientMqtt.publish(relays.get(i), messageRelay.get(i));
+					String alias = ALIAS_RELAY + numberRelay;
 					refIntClientMqtt.publish(alias, messageRelay.get(i));
 					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,messageRelay.get(i));
 				} catch (MessageException e) {
@@ -186,11 +169,5 @@ public class Scheduled implements ConfigurableComponent{
 				
 		
 	}
-	private void logger (String message) {
-		//  var/log/kura-console.log
-		System.out.println("::"+ALIAS_APP_ID+"::"+message);
-		//  var/log/kura.log
-		S_LOGGER.info("::"+ALIAS_APP_ID+"::"+message);		
-	}
-	
+		
 }
