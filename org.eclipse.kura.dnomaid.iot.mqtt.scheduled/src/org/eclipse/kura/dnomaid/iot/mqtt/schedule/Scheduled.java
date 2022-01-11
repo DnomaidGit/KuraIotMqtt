@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.kura.configuration.ConfigurableComponent;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt;
@@ -17,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Scheduled implements ConfigurableComponent{
-	private Thread thread;
 	private List<ScheduleSetting> scheduleSetting = new ArrayList<ScheduleSetting>();
 	
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(Scheduled.class);
@@ -26,17 +27,17 @@ public class Scheduled implements ConfigurableComponent{
     private static final Integer NUMBER_RELAY = 6;
     private static final String ALIAS_RELAY = "relay0";
 
-    private List <String> messageRelay = new  ArrayList<String>(); 
-    private boolean init;
+    private List <String> messageRelay = new  ArrayList<String>();     
     
-    private final ScheduledExecutorService worker;
+    private ScheduledExecutorService worker;
+    private ScheduledFuture<?> handle;
     
     private IntClientMqtt refIntClientMqtt;
     
     public Scheduled() {
     	super();
     	this.worker = Executors.newSingleThreadScheduledExecutor();
-    	init = false;
+    	init();
     }
     
 	// ----------------------------------------------------------------
@@ -54,32 +55,7 @@ public class Scheduled implements ConfigurableComponent{
     // ----------------------------------------------------------------         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
     	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID);         	
-    	updated(properties);        
-        thread =  new Thread(new Runnable() {
-        	@Override
-        	public void run() {
-        		while(true) {
-        			try {
-        				Thread.sleep(1000);        				
-        				S_LOGGER.info("{} -> Number device: {}",refIntClientMqtt.numberRelay());
-        				if(refIntClientMqtt.isConnected()) {	        					
-	        					if(!init) {
-	        						init();
-	        					}else {
-	        						scheduledRelayPublish();
-	        					}
-        				}else {
-        					resetRelays();
-        				}
-        				
-					} catch (Exception e) {
-						S_LOGGER.error("{} -> Error runnable: {}",ALIAS_APP_ID,e.getCause());
-						e.printStackTrace();
-					}        			
-        		}
-        	}
-        });
-        thread.start(); 
+    	updated(properties);                
         S_LOGGER.info("Activating {} ... Done.", ALIAS_APP_ID);
     }
     protected void deactivate(ComponentContext componentContext) {  	
@@ -89,11 +65,13 @@ public class Scheduled implements ConfigurableComponent{
     }
     private void updated(Map<String, Object> properties) {
     	S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
+    	this.worker = Executors.newSingleThreadScheduledExecutor();
     	dumpProperties("Update", properties);
     	scheduleSetting.clear();
     	for (int i = 1; i <= NUMBER_SCHEDULE; i++) {
     		scheduleSetting.add(new ScheduleSetting(properties, i));
 		}
+    	start();
     	S_LOGGER.info("Updated "+ ALIAS_APP_ID +"... Done.");
     }
     
@@ -111,28 +89,52 @@ public class Scheduled implements ConfigurableComponent{
 		for (int i = 0; i < NUMBER_RELAY; i++) {
 			messageRelay.add("OFF");
 		}		
-        init=true;	
     }
-    
-    private void resetRelays() {
-		messageRelay.clear();
-        init=false;	
+    private void start() {
+        if (this.handle != null) {
+            this.handle.cancel(true);
+        }
+        int pubrate = 1000;
+        this.handle = this.worker.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+            	try {    				        				
+    				S_LOGGER.info("{} -> Number device: {}",ALIAS_APP_ID,refIntClientMqtt.numberRelay());
+    				if(refIntClientMqtt.isConnected()) {	        					
+    					S_LOGGER.info("{} -> isConnected",ALIAS_APP_ID);
+    				}
+//    				if(refIntClientMqtt.isConnected()) {	        					
+    					scheduledRelayPublish();
+//					}    				
+				} catch (Exception e) {
+					S_LOGGER.error("{} -> Error runnable: {}",ALIAS_APP_ID,e.getCause());
+				}        			
+            }
+        }, 0, pubrate, TimeUnit.MILLISECONDS);
     }
     
 	private void scheduledRelayPublish() {
-		String Hour = "--",Minute = "--",Second ="--";		
+		String Hour = "0",Minute = "0",Second ="0";
+		S_LOGGER.info("{} -> scheduledRelayPublish",ALIAS_APP_ID);
+		try {
+			if(refIntClientMqtt.isConnected()) {	        					
+				S_LOGGER.info("{} -> isConnected",ALIAS_APP_ID);
+			}
+		} catch (MessageException e) {
+			S_LOGGER.error("{} -> Error runnable: {}",ALIAS_APP_ID,e.getCause());
+		} 
 		//Time
 		try {
-				LocalDateTime now = LocalDateTime.now();
-				Hour = String.valueOf(now.getHour());
-				Minute = String.valueOf(now.getMinute());
-				Second = String.valueOf(now.getSecond());
-				if(Second.equals("0")) {
-					S_LOGGER.info("{} -> Time {} : {}",ALIAS_APP_ID,Hour,Minute);
-				}							
-			} catch (Exception e) {
-				S_LOGGER.error("{} -> Error time: {}",ALIAS_APP_ID,e.getCause());				
-			}
+			LocalDateTime now = LocalDateTime.now();
+			Hour = String.valueOf(now.getHour());
+			Minute = String.valueOf(now.getMinute());
+			Second = String.valueOf(now.getSecond());
+			if(Second.equals("0")) {
+				S_LOGGER.info("{} -> Time {} : {}",ALIAS_APP_ID,Hour,Minute);
+			}							
+		} catch (Exception e) {
+			S_LOGGER.error("{} -> Error time: {}",ALIAS_APP_ID,e.getCause());				
+		}
 		//Initialize list
 		for (int i = 0; i < messageRelay.size(); i++) {messageRelay.set(i, "empty");}		
         //Scheduled
@@ -152,8 +154,7 @@ public class Scheduled implements ConfigurableComponent{
 					}
 				}
 			}
-		}
-		
+		}		
 		//Publish message		
 		for (int i = 0; i < messageRelay.size(); i++) {			
 			if(!messageRelay.get(i).equals("empty"))
@@ -165,9 +166,7 @@ public class Scheduled implements ConfigurableComponent{
 				} catch (MessageException e) {
 					S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());
 				}
-		}
-				
-		
+		}		
 	}
 		
 }

@@ -124,20 +124,28 @@ public class ClientMqtt implements ConfigurableComponent, IntClientMqtt, IntMqtt
 	@Override
 	public void publish(String relay, String message) throws MessageException {
 		S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,relay,message);
-		for (int i = 0; i < Devices.getInst().getDevicesConfig().size(); i++) {
-			String nameDevice = "?";
-			if(Devices.getInst().getDevicesConfig().get(i).getAliasDevice().equals(relay)) {
-				nameDevice = Devices.getInst().getDevicesConfig().get(i).toString();
+		Boolean publishMessage = false;
+		if(Status.getInst().isConnected()) {
+			for (int i = 0; i < Devices.getInst().getDevicesConfig().size(); i++) {
+				String nameDevice = "?";
+				if(Devices.getInst().getDevicesConfig().get(i).getAliasDevice().equals(relay)) {
+					nameDevice = Devices.getInst().getDevicesConfig().get(i).toString();
+				}
+				String topicDevice = "?";
+				if(Devices.getInst().getRelays().get(i).getNameDevice().equals(nameDevice)) {
+					topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(1).getName();
+				}
+				if(!topicDevice.equals("?")) {
+					mqtt.publish(topicDevice, message);				
+					S_LOGGER.info("{} -> Publish topic: {} - message: {}",ALIAS_APP_ID,topicDevice,message);
+					publishMessage = true;
+				}						
 			}
-			String topicDevice = "?";
-			if(Devices.getInst().getRelays().get(i).getNameDevice().equals(nameDevice)) {
-				topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(1).getName();
-			}
-			if(!topicDevice.equals("?")) {
-				mqtt.publish(topicDevice, message);				
-				S_LOGGER.info("{} -> Publish topic: {} - message: {}",ALIAS_APP_ID,topicDevice,message);
-			}						
-		}			
+			if(!publishMessage)S_LOGGER.info("{} -> Not find alias!",ALIAS_APP_ID);
+			if(!publishMessage)S_LOGGER.error("{} -> Error, not find alias!",ALIAS_APP_ID);
+		}else {
+			S_LOGGER.info("{} -> Client mqtt is not connected!",ALIAS_APP_ID);	
+		}
 	}
 
 	@Override
