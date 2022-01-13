@@ -100,12 +100,7 @@ public class Scheduled implements ConfigurableComponent{
             public void run() {
             	try {    				        				
     				S_LOGGER.info("{} -> Number device: {}",ALIAS_APP_ID,refIntClientMqtt.numberRelay());
-    				if(refIntClientMqtt.isConnected()) {	        					
-    					S_LOGGER.info("{} -> isConnected",ALIAS_APP_ID);
-    				}
-//    				if(refIntClientMqtt.isConnected()) {	        					
-    					scheduledRelayPublish();
-//					}    				
+					scheduledRelayPublish();
 				} catch (Exception e) {
 					S_LOGGER.error("{} -> Error runnable: {}",ALIAS_APP_ID,e.getCause());
 				}        			
@@ -161,7 +156,7 @@ public class Scheduled implements ConfigurableComponent{
 				try {
 					Integer numberRelay = i + 1; 
 					String alias = ALIAS_RELAY + numberRelay;
-					refIntClientMqtt.publish(alias, messageRelay.get(i));
+					refIntClientMqtt.publishRelay(alias, messageRelay.get(i));
 					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,messageRelay.get(i));
 				} catch (MessageException e) {
 					S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());

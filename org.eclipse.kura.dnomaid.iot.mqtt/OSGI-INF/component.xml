@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" configuration-policy="require" deactivate="deactivate" immediate="true" modified="updated" name="org.eclipse.kura.DNOMAID.iot.ClientMqttSetting">
-   <implementation class="org.eclipse.kura.dnomaid.iot.mqtt.ClientMqtt"/>
+   <implementation class="org.eclipse.kura.dnomaid.iot.mqtt.ClientMqttService"/>
    <service>
       <provide interface="org.eclipse.kura.configuration.ConfigurableComponent"/>
       <provide interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt"/>
       <provide interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice"/>
    </service>
-   <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.ClientMqttSetting"/>
+   <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.mqtt.ClientMqttService"/>
 </scr:component>

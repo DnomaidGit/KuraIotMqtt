@@ -6,4 +6,5 @@
    </service>
    <reference bind="setIntMqttDevice" cardinality="1..1" interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice" name="IntMqttDevice" policy="static" unbind="unsetIntMqttDevice"/>
    <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.mqtt.device.DeviceService"/>
+   <reference bind="setIntClientMqtt" cardinality="1..1" interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt" name="IntClientMqtt" policy="static"/>
 </scr:component>
