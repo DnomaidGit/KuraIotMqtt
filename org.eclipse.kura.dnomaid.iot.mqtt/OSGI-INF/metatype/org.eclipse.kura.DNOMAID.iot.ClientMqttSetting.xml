@@ -17,7 +17,7 @@
     <OCD id="org.eclipse.kura.DNOMAID.iot.ClientMqttSetting"
          name="clientMqttDnomaid"
          description="MqttDnomaid --ClientMqtt setting--">
-        <Icon resource="OSGI-INF/schedule.png" size="32"/>
+        <Icon resource="OSGI-INF/mqtt.png" size="32"/>
         <!--Connection-->  		
   		<AD id="Enable"
             name="Enable"

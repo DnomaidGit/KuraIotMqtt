@@ -16,7 +16,16 @@
 <MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
     <OCD id="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting"
          name="deviceDnomaid"
-         description="MqttDeviceDnomaid --MqttDevice setting--">
+         description="* MqttDeviceDnomaid --MqttDevice setting--. \n
+         
+         * The topic publish is created automatically. 
+         * -Sonoff20-.
+          * topic publish:> Dnomaid/stat/Router_1/Sonoff20_[numberDevice]/Relay_1/Power.
+         * -XiaomiZNCZ04LM-.
+          * topic publish:> Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_[numberDevice]/RelaySensorClimate_1/Power.          
+         ">
+         
+        <Icon resource="OSGI-INF/relay.png" size="32"/> 
     	<!--Add Device-->
     	<AD id="enable"
             name="Enable"

@@ -3,8 +3,6 @@ package org.eclipse.kura.dnomaid.iot.mqtt;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.kura.configuration.ConfigurableComponent;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt;
@@ -23,12 +21,10 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
 	private static final Logger S_LOGGER = LoggerFactory.getLogger(ClientMqttService.class);
     private static final String ALIAS_APP_ID = "ClientMqtt"; 
     
-    private final ScheduledExecutorService worker;
     private static boolean ENABLE;
     
     public ClientMqttService() {
     	super();
-    	this.worker = Executors.newSingleThreadScheduledExecutor();
     	this.mqtt = new Mqtt();
     	ENABLE = false;
     }
@@ -44,10 +40,9 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     protected void deactivate(ComponentContext componentContext) {
     	S_LOGGER.info("Deactivating {} ...", ALIAS_APP_ID);    	
     	mqtt.disconnection();        
-        this.worker.shutdown();
         S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
     }    
-    public void updated(Map<String, Object> properties) {
+    protected void updated(Map<String, Object> properties) {
     	S_LOGGER.info("Updated {} ...", ALIAS_APP_ID); 
     	storeProperties("Update", properties);
         if (ENABLE) {
@@ -127,7 +122,7 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
 					publishMessage = true;
 				}						
 			}
-			if(!publishMessage)S_LOGGER.error("{} -> Error, not find alias!",ALIAS_APP_ID);
+			if(!publishMessage)S_LOGGER.error("{} -> Error, {} not find alias!",ALIAS_APP_ID,alias);
 		}else {
 			S_LOGGER.info("{} -> Client mqtt is not connected!",ALIAS_APP_ID);	
 		}    	
