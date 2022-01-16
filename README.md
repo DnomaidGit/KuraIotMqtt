@@ -14,7 +14,7 @@
 10. [Links](#links)
 ***
 ## General Info
-Basic example client mqtt Paho for an Eclipse Kura project.
+It is a simple Kura component to program the switching On/Off of relays. We will use Mqtt for sending messages and we can choose different devices.
 ***
 ## Development Environment
 * Eclipse Neon Version: 2019-09 R (4.13.0). An additional plugin, mToolkit, is needed to allow remote connectivity to an OSGi framework on a Kura-enabled target device. To install mToolkit into Eclipse, use the following steps: 
@@ -26,6 +26,7 @@ Basic example client mqtt Paho for an Eclipse Kura project.
 ***
 ## System Requirements
 * Eclipse Kura 4.1.0 is compatible with Java 8 and [OSGi R6](https://docs.osgi.org/specification/).
+* Zigbee2Mqtt.
 ***
 ## Build sources
 The only requisite to build from sources is an already  
@@ -34,6 +35,7 @@ installed [Eclipse Kura User Workspace](https://www.eclipse.org/kura/downloads.p
 ## Tested
 * Raspberry pi 3 and 4.
 * Eclipse Kura 4.1.0.
+* Gateway Zigbee CC2531
 ***
 ## Binary package
 The binary package ready for the installation can be
@@ -59,7 +61,7 @@ The publish topic is created automatically and the device has to be configured w
 
 ***
 ## Links
-Android application for IoT:
+Android application:
 * https://github.com/DnomaidGit/AndroidIotMqtt
 * https://play.google.com/store/apps/details?id=com.dnomaid.mqtt&gl=ES
 ***
