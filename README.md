@@ -51,11 +51,11 @@ The publish topic is created automatically and the device has to be configured w
 1. Sonoff20
   + Topic publish: Dnomaid/stat/Router_1/"Type device"_"Number Device"/Relay_1/Power.
   + Ejemplo:> Type device: Sonoff20; Number Device: 1.
-    Topic publish: Dnomaid/stat/Router_1/Sonoff20_1/Relay_1/Power.
+  +    Topic publish: Dnomaid/stat/Router_1/Sonoff20_1/Relay_1/Power.
 2. XiaomiZNCZ04LM
   + Topic publish: Dnomaid/mix/CC2531_1/"Type device"_"Number Device"/RelaySensorClimate_1/Power.
   + Ejemplo:> Type device: XiaomiZNCZ04LM; Number Device: 2.
-    Topic publish: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_2/RelaySensorClimate_1/Power.
+  +    Topic publish: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_2/RelaySensorClimate_1/Power.
 ***
 ## Installation
 

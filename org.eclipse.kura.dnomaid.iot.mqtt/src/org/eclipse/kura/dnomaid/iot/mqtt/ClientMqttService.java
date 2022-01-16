@@ -4,7 +4,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.kura.KuraException;
 import org.eclipse.kura.configuration.ConfigurableComponent;
+import org.eclipse.kura.configuration.Password;
+import org.eclipse.kura.crypto.CryptoService;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice;
 import org.eclipse.kura.dnomaid.iot.mqtt.device.Devices;
@@ -23,10 +26,23 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     
     private static boolean ENABLE;
     
+    private CryptoService refCryptoService;
+    
     public ClientMqttService() {
     	super();
     	this.mqtt = new Mqtt();
     	ENABLE = false;
+    }
+    
+    // ----------------------------------------------------------------
+    // Reference
+    // ----------------------------------------------------------------  
+    public void setCryptoService(CryptoService cryptoService) {
+        this.refCryptoService = cryptoService;
+    }
+
+    public void unsetCryptoService(CryptoService cryptoService) {
+        this.refCryptoService = null;
     }
     
     // ----------------------------------------------------------------
@@ -38,12 +54,12 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     	S_LOGGER.info("Activating {} ... Done.", ALIAS_APP_ID);
     }
     protected void deactivate(ComponentContext componentContext) {
-    	S_LOGGER.info("Deactivating {} ...", ALIAS_APP_ID);    	
-    	mqtt.disconnection();        
+    	S_LOGGER.info("Deactivating {} ...", ALIAS_APP_ID);
+    	if(mqtt!=null)mqtt.disconnection();     	       
         S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
     }    
     protected void updated(Map<String, Object> properties) {
-    	S_LOGGER.info("Updated {} ...", ALIAS_APP_ID); 
+    	S_LOGGER.info("Updated {} ...", ALIAS_APP_ID);     	
     	storeProperties("Update", properties);
         if (ENABLE) {
         	S_LOGGER.info("Client connecting {} ...", ALIAS_APP_ID);
@@ -64,31 +80,46 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     // ----------------------------------------------------------------
     // Private Methods
     // ----------------------------------------------------------------
-    private static void storeProperties(final String action, final Map<String, Object> properties) {
+    private void storeProperties(final String action, final Map<String, Object> properties) {
         final Set<String> keys = new TreeSet<>(properties.keySet());
         for (final String key : keys) {
-            S_LOGGER.info("{} - {}: {}", action, key, properties.get(key));
             switch (key) {
-			case "Enable":
+			case "enable":
 				ENABLE = (Boolean)properties.get(key);
 				break;
-			case "Server":
+			case "server":
 				ConnectionConstants.getInst().setServer((String)properties.get(key));
 				break;
-			case "Port":
+			case "port":
 				ConnectionConstants.getInst().setPort((int)properties.get(key));
 				break;
-			case "ClientId":
+			case "clientId":
 				ConnectionConstants.getInst().setClientId((String)properties.get(key));
 				break;
-			case "CleanSession":
+			case "cleanSession":
 				ConnectionConstants.getInst().setCleanSession((Boolean)properties.get(key));
 				break;
-			case "Username":
+			case "username":
 				ConnectionConstants.getInst().setUsername((String)properties.get(key));
 				break;
-			case "Password":
-				ConnectionConstants.getInst().setPassword((String)properties.get(key));
+			case "password":
+				/*
+				try {
+					ConnectionConstants.getInst().setPassword(decryptPassword(((String) properties.get("password")).toCharArray()));
+					String propertiesKey = decryptPassword(((String) properties.get("password")).toCharArray());
+					S_LOGGER.error("gETPassword: {}",ALIAS_APP_ID,ConnectionConstants.getInst().getPassword());
+				} catch (KuraException e) {
+					S_LOGGER.error("Error: " + e.getLocalizedMessage());
+				}
+				Password propertiesKey = (Password) properties.get("password");
+				S_LOGGER.info("propertiesKey: {}",ALIAS_APP_ID,propertiesKey.toString());
+				char[] arrayPassword = propertiesKey.toString().toCharArray();
+				S_LOGGER.info("arrayPassword: {}",ALIAS_APP_ID,arrayPassword);
+				String password = getPassword(arrayPassword);
+				S_LOGGER.info("Password: {}",ALIAS_APP_ID,password);
+ 
+ */
+//				ConnectionConstants.getInst().setPassword((String)properties.get(key));
 				break;
 			case "component.id":
 				break;
@@ -101,7 +132,8 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
 			default:
 				S_LOGGER.warn("{} unknown properties: {} ", ALIAS_APP_ID, key);
 				break;
-			}                  
+			}
+            S_LOGGER.info("{} - {}: {}", action, key, properties.get(key));
         }
     }
     private void publish(String alias, String message) {
@@ -146,7 +178,21 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     }    
     private void deleteDevice(String typeDevice, String numberDevice) {
     	Devices.getInst().deleteDevice(typeDevice, numberDevice);;
-    } 
+    }
+    private String decryptPassword(char[] encryptedPassword) throws KuraException {
+        final char[] decodedPasswordChars = this.refCryptoService.decryptAes(encryptedPassword);
+        return new String(decodedPasswordChars);
+    }
+    private String getPassword(char [] passwordProperties) {
+    	Password password = null;
+		try {
+			password = new Password(this.refCryptoService.decryptAes(passwordProperties));
+			S_LOGGER.error("gETPassword: {}",ALIAS_APP_ID,password.toString());
+		} catch (KuraException e) {
+			S_LOGGER.error("Error: " + e.getLocalizedMessage());
+		}
+    	return password.toString();
+    }
 
     // ----------------------------------------------------------------
     // Implementation

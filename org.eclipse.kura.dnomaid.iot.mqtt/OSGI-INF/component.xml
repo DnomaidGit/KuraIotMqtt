@@ -7,4 +7,5 @@
       <provide interface="org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice"/>
    </service>
    <property name="service.pid" type="String" value="org.eclipse.kura.dnomaid.iot.mqtt.ClientMqttService"/>
+   <reference bind="setCryptoService" cardinality="1..1" interface="org.eclipse.kura.crypto.CryptoService" name="CryptoService" policy="static" unbind="unsetCryptoService"/>
 </scr:component>
