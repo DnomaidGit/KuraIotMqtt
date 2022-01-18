@@ -3,10 +3,13 @@ package org.eclipse.kura.dnomaid.iot.mqtt;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.configuration.ConfigurableComponent;
-import org.eclipse.kura.configuration.Password;
 import org.eclipse.kura.crypto.CryptoService;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntClientMqtt;
 import org.eclipse.kura.dnomaid.iot.mqtt.api.IntMqttDevice;
@@ -27,6 +30,9 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     private static boolean ENABLE;
     
     private CryptoService refCryptoService;
+    
+    private ScheduledExecutorService worker;
+    private ScheduledFuture<?> handle;
     
     public ClientMqttService() {
     	super();
@@ -55,25 +61,17 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     }
     protected void deactivate(ComponentContext componentContext) {
     	S_LOGGER.info("Deactivating {} ...", ALIAS_APP_ID);
-    	if(mqtt!=null)mqtt.disconnection();     	       
+    	if(this.mqtt!=null) {
+    		this.mqtt.disconnection();
+    		this.mqtt = null;    	
+    	}
+    	stopService();
         S_LOGGER.info("Deactivating {} ... Done.", ALIAS_APP_ID);
     }    
     protected void updated(Map<String, Object> properties) {
     	S_LOGGER.info("Updated {} ...", ALIAS_APP_ID);     	
     	storeProperties("Update", properties);
-        if (ENABLE) {
-        	S_LOGGER.info("Client connecting {} ...", ALIAS_APP_ID);
-        	if(!Status.getInst().isConnectedOrConnecting()) {
-        		mqtt.connection();
-            	S_LOGGER.info("Client connected {} !", ALIAS_APP_ID);
-        	}
-    	}else {
-        	S_LOGGER.info("Client disconnecting {} ...", ALIAS_APP_ID);
-    		if(Status.getInst().isConnected()) {
-    			mqtt.disconnection();    			    			
-            	S_LOGGER.info("Client disconnected {} !", ALIAS_APP_ID);
-    		}   		
-    	}
+    	startService();
         S_LOGGER.info("Updated {} ... Done.", ALIAS_APP_ID);
     }
 
@@ -102,24 +100,15 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
 			case "username":
 				ConnectionConstants.getInst().setUsername((String)properties.get(key));
 				break;
-			case "password":
-				/*
+			case "password":				
 				try {
 					ConnectionConstants.getInst().setPassword(decryptPassword(((String) properties.get("password")).toCharArray()));
 					String propertiesKey = decryptPassword(((String) properties.get("password")).toCharArray());
-					S_LOGGER.error("gETPassword: {}",ALIAS_APP_ID,ConnectionConstants.getInst().getPassword());
+					S_LOGGER.error("{}  KEY Password: {}",ALIAS_APP_ID,propertiesKey);
+					S_LOGGER.error("{}  gETPassword: {}",ALIAS_APP_ID,ConnectionConstants.getInst().getPassword());
 				} catch (KuraException e) {
 					S_LOGGER.error("Error: " + e.getLocalizedMessage());
 				}
-				Password propertiesKey = (Password) properties.get("password");
-				S_LOGGER.info("propertiesKey: {}",ALIAS_APP_ID,propertiesKey.toString());
-				char[] arrayPassword = propertiesKey.toString().toCharArray();
-				S_LOGGER.info("arrayPassword: {}",ALIAS_APP_ID,arrayPassword);
-				String password = getPassword(arrayPassword);
-				S_LOGGER.info("Password: {}",ALIAS_APP_ID,password);
- 
- */
-//				ConnectionConstants.getInst().setPassword((String)properties.get(key));
 				break;
 			case "component.id":
 				break;
@@ -136,6 +125,53 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
             S_LOGGER.info("{} - {}: {}", action, key, properties.get(key));
         }
     }
+    private void startService() {     	
+        	if (this.worker != null) {
+        		S_LOGGER.info("Already running", ALIAS_APP_ID);
+                return;
+            }
+            if (this.handle != null) {
+                this.handle.cancel(true);
+            }
+	    	this.worker = Executors.newSingleThreadScheduledExecutor();
+	        int pubrate = 1000;
+	        this.handle = this.worker.scheduleAtFixedRate(new Runnable() {
+	            @Override
+	            public void run() {
+	            	try { 
+	                    if (ENABLE) {
+	                    	if(!Status.getInst().isConnected())S_LOGGER.info("Client connecting {} ...", ALIAS_APP_ID);
+	                    	if(!Status.getInst().isConnectedOrConnecting()) {       		
+	                    		if(mqtt==null)mqtt = new Mqtt();
+	                    		mqtt.connection();
+	                    		if(Status.getInst().isConnected())S_LOGGER.info("Client is connected {} !", ALIAS_APP_ID);
+	                    	}
+                    		if(!Status.getInst().noError())S_LOGGER.info("Error client is connecting {} !", ALIAS_APP_ID);            	
+	                    }else {
+	                    	if(Status.getInst().isConnected())S_LOGGER.info("Client disconnecting {} ...", ALIAS_APP_ID);
+	                		if(Status.getInst().isConnected()) {
+	                			if(mqtt!=null)mqtt.disconnection();  
+	                			mqtt = null;
+	                        	S_LOGGER.info("Client disconnected {} !", ALIAS_APP_ID);
+	                		}   		
+                    		if(!Status.getInst().noError())S_LOGGER.info("Error client is connecting {} !", ALIAS_APP_ID);            	
+	                    }
+					} catch (Exception e) {
+						S_LOGGER.error("{} -> component {} Error runnable: {}",ALIAS_APP_ID,e.getCause());
+					}        			
+	            }
+	        }, 0, pubrate, TimeUnit.MILLISECONDS);        
+    }
+    private void stopService() {
+	        if (this.handle != null) {
+            this.handle.cancel(false);
+            this.handle = null;
+        }
+        if (this.worker != null) {
+            this.worker.shutdown();
+            this.worker = null;
+        }
+    }
     private void publish(String alias, String message) {
     	Boolean publishMessage = false;
 		if(Status.getInst().isConnected()) {
@@ -149,7 +185,7 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
 					topicDevice = Devices.getInst().getRelays().get(i).getTopics().get(1).getName();
 				}
 				if(!topicDevice.equals("?")) {
-					mqtt.publish(topicDevice, message);				
+					this.mqtt.publish(topicDevice, message);				
 					S_LOGGER.info("{} -> Publish topic: {} - message: {}",ALIAS_APP_ID,topicDevice,message);
 					publishMessage = true;
 				}						
@@ -182,16 +218,6 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     private String decryptPassword(char[] encryptedPassword) throws KuraException {
         final char[] decodedPasswordChars = this.refCryptoService.decryptAes(encryptedPassword);
         return new String(decodedPasswordChars);
-    }
-    private String getPassword(char [] passwordProperties) {
-    	Password password = null;
-		try {
-			password = new Password(this.refCryptoService.decryptAes(passwordProperties));
-			S_LOGGER.error("gETPassword: {}",ALIAS_APP_ID,password.toString());
-		} catch (KuraException e) {
-			S_LOGGER.error("Error: " + e.getLocalizedMessage());
-		}
-    	return password.toString();
     }
 
     // ----------------------------------------------------------------

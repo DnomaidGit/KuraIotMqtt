@@ -65,7 +65,7 @@
             description="Username"/>        
         <AD id="password"
             name="Password"
-            type="String"
+            type="Password"
             cardinality="0"
             required="true"
             default="test12"
