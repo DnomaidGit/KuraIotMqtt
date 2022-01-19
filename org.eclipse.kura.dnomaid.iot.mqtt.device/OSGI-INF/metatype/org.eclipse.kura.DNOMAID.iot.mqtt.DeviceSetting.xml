@@ -16,9 +16,9 @@
 <MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
     <OCD id="org.eclipse.kura.DNOMAID.iot.mqtt.DeviceSetting"
          name="deviceDnomaid"
-         description="MqttDeviceDnomaid --MqttDevice setting--.">         
+         description="MqttDeviceDnomaid --MqttDevice setting--">         
         <Icon resource="OSGI-INF/relay.png" size="32"/> 
-    	<!--Add Device-->
+    	<!--Add Device -->
     	<AD id="enable"
             name="Enable"
             type="Boolean"

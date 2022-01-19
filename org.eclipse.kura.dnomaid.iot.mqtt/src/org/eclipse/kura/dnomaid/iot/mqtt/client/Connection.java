@@ -65,7 +65,7 @@ public class Connection {
 		publishTopic = ConnectionConstants.getInst().getPublishTopic();
 		publishQos = ConnectionConstants.getInst().getPublishQos();
 		retained = ConnectionConstants.getInst().isRetained();
-		conOpt = ConnectionConstants.getInst().getConOpt();
+		conOpt = ConnectionConstants.getInst().updateConOpt();
 		// last will message
         if ((!messageLWT.equals(Status.EMPTY)) || (!publishTopic.equals(Status.EMPTY))) {
         	conOpt.setWill(publishTopic, messageLWT.getBytes(), publishQos, retained);
