@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,10 +25,11 @@ public class ScheduledService implements ConfigurableComponent{
     private static final Integer NUMBER_SCHEDULE = 6;
     private static final Integer NUMBER_RELAY = 6;
     private static final String ALIAS_RELAY = "relay0";
+    private static final String EMPTY = "empty";
     private static String NAME_COMPONENT = "NameComponent?";
     
     private List<ScheduleSetting> scheduleSetting = new ArrayList<ScheduleSetting>();
-    private List <String> messageRelay = new  ArrayList<String>();     
+    private TreeMap<String, String> messageRelay = new TreeMap<String, String>();
     
     private ScheduledExecutorService worker;
     private ScheduledFuture<?> handle;
@@ -36,7 +38,7 @@ public class ScheduledService implements ConfigurableComponent{
     
     public ScheduledService() {
     	super();
-    	initMessageRelay();
+    	initMessageRelay(EMPTY);
     }
     
 	// ----------------------------------------------------------------
@@ -80,10 +82,10 @@ public class ScheduledService implements ConfigurableComponent{
             	NAME_COMPONENT = (String)properties.get(key);
         }
     }
-    private void initMessageRelay() { 
+    private void initMessageRelay(String value) { 
     	messageRelay.clear();
-		for (int i = 0; i < NUMBER_RELAY; i++) {			
-			messageRelay.add("empty");			
+		for (int i = 1; i <= NUMBER_RELAY; i++) {			
+			messageRelay.put(ALIAS_RELAY+i, value);
 		}    	
     }
     private void initScheduleSetting(Map<String, Object> properties) {
@@ -139,40 +141,41 @@ public class ScheduledService implements ConfigurableComponent{
 			S_LOGGER.error("{} -> Error time: {}",ALIAS_APP_ID,e.getCause());				
 		}
 		//Initialize list
-		initMessageRelay();
+		initMessageRelay(EMPTY);
 		//Scheduled
 		for(int j = 0; j < scheduleSetting.size(); j++) {
-			if (!scheduleSetting.get(j).getRelay().equals("none")) {
-				// Check scheduled time
-				if(scheduleSetting.get(j).getHour().equals(Hour)&scheduleSetting.get(j).getMinute().equals(Minute)&"0".equals(Second)) {
-					S_LOGGER.info("{} -> Number Schedule: {} - Cmnd: {} - Relay: {}"
-							      ,ALIAS_APP_ID,j+1,scheduleSetting.get(j).getCmnd(),scheduleSetting.get(j).getRelay());
-					//Search relay name
-					for (int i = 0; i < messageRelay.size(); i++) {
-						int numRelay=i+1;
-						if (scheduleSetting.get(j).getRelay().equals(ALIAS_RELAY+numRelay)) messageRelay.set(i,scheduleSetting.get(j).getCmnd());
-					}
-					if (scheduleSetting.get(j).getRelay().equals("all")) {
-						for (int i = 0; i < messageRelay.size(); i++) {
-							messageRelay.set(i, scheduleSetting.get(j).getCmnd());
-						}	
-					}
-				}
+			// Check scheduled time
+			if(scheduleSetting.get(j).getHour().equals(Hour)&scheduleSetting.get(j).getMinute().equals(Minute)&"0".equals(Second)) {
+				S_LOGGER.info("{} -> Number Schedule: {} - Cmnd: {} - Relay: {}"
+						      ,ALIAS_APP_ID,j+1,scheduleSetting.get(j).getCmnd(),scheduleSetting.get(j).getRelay());
+				String relay = scheduleSetting.get(j).getRelay();
+				switch (relay) {
+				case "none":						
+					break;
+				case "all":
+					initMessageRelay(scheduleSetting.get(j).getCmnd());
+					break;
+				case "relay01": case"relay02": case"relay03": case"relay04": case"relay05": case"relay06":
+					messageRelay.put(relay, scheduleSetting.get(j).getCmnd());
+					break;						
+				default:
+					S_LOGGER.error("{} -> Error number relay",ALIAS_APP_ID);
+					break;
+				}					
 			}
 		}		
-		//Publish message		
-		for (int i = 0; i < messageRelay.size(); i++) {			
-			if(!messageRelay.get(i).equals("empty")) {
-				try {
-					Integer numberRelay = i + 1; 
-					String alias = ALIAS_RELAY + numberRelay;
-					refIntClientMqtt.publishRelay(alias, messageRelay.get(i));
-					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,messageRelay.get(i));
-				} catch (MessageException e) {
-					S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());
+		//Publish message	
+		for (Map.Entry<String, String> entry : messageRelay.entrySet()) {
+			try {
+				String alias = entry.getKey();
+				String message = entry.getValue();
+				if(!message.equals(EMPTY)) {
+					refIntClientMqtt.publishRelay(alias, message);
+					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,message);					
 				}
-			}
-		}		
-	}
-		
+			} catch (MessageException e) {
+				S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());
+			}			
+		}
+	}		
 }

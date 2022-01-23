@@ -70,11 +70,11 @@ public class ClientMqttService implements ConfigurableComponent, IntClientMqtt, 
     // ----------------------------------------------------------------
     // Private Methods
     // ----------------------------------------------------------------
-    private void storeProperties(final String action, final Map<String, Object> properties) {
-        final Set<String> keys = new TreeSet<>(properties.keySet());
-        for (final String key : keys) {
+    private void storeProperties(String action, Map<String, Object> properties) {
+        Set<String> keys = new TreeSet<>(properties.keySet());
+        for (String key : keys) {
             switch (key) {
-			case "enable":
+			case "connection":
 				ENABLE = (Boolean)properties.get(key);
 				break;
 			case "server":

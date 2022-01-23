@@ -19,13 +19,13 @@
          description="MqttDnomaid --ClientMqtt setting--">
         <Icon resource="OSGI-INF/mqtt.png" size="32"/>
         <!--Connection-->  		
-  		<AD id="enable"
-            name="Enable"
+  		<AD id="connection"
+            name="Connection"
             type="Boolean"
             cardinality="0"
             required="true"
             default="false"
-            description="Enable"/>  		
+            description="Connection = TRUE ;Disconnection = FALSE"/>  		
  		<AD id="server"
             name="Server"
             type="String"
