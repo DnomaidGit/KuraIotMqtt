@@ -104,11 +104,15 @@ public class DeviceService implements ConfigurableComponent {
 	            public void run() {
 	            	try { 
 	            		if(!updatedOk) {
-	    				add(deviceSetting.getTypeDevice(), deviceSetting.getNumberDevice(), deviceSetting.getAliasDevice());
-	            		S_LOGGER.info("{} -> Running component {}",ALIAS_APP_ID, componentName);
+	        				if (deviceSetting!=null) {
+		    					add(deviceSetting.getTypeDevice(), deviceSetting.getNumberDevice(), deviceSetting.getAliasDevice());
+		    					S_LOGGER.info("{} -> Running component {}",ALIAS_APP_ID, componentName);
+	        				}else {
+	        					S_LOGGER.error("{} -> NULL properties",ALIAS_APP_ID);
+        					}
 	            		}
 					} catch (Exception e) {
-						S_LOGGER.error("{} -> component {} Error runnable: {}",ALIAS_APP_ID,componentName,e.getCause());
+						S_LOGGER.error("{} -> component {} Error runnable CAUSE: {}",ALIAS_APP_ID,componentName,e.getCause());
 					}        			
 	            }
 	        }, 0, pubrate, TimeUnit.MILLISECONDS);
@@ -130,7 +134,7 @@ public class DeviceService implements ConfigurableComponent {
         }
     }
     private void add (String type, String number, String alias) {
-    	try {					
+    	try {
 			this.refIntMqttDevice.addMqttDevice(type, number, alias );
 			S_LOGGER.info("{} -> Added mqtt device: {} - {} - {}",ALIAS_APP_ID,type,number,alias);
 			S_LOGGER.info("{} -> Number devices: {}",ALIAS_APP_ID,refIntClientMqtt.numberRelay());					
