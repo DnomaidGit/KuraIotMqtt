@@ -67,8 +67,10 @@ public class ScheduledService implements ConfigurableComponent{
     protected void updated(Map<String, Object> properties) {
     	S_LOGGER.info("Updated {} ...", ALIAS_APP_ID);
     	dumpProperties("Update", properties);
-    	initScheduleSetting(properties);
-    	startService();
+    	if(!NAME_COMPONENT.equals("NameComponent?")) {
+        	initScheduleSetting(properties);
+        	startService();    		
+    	}
     	S_LOGGER.info("Updated {} ... Done.", ALIAS_APP_ID);
     }
     
