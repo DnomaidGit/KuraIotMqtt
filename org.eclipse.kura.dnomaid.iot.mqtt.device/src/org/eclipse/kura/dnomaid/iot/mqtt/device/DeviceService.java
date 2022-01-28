@@ -57,8 +57,9 @@ public class DeviceService implements ConfigurableComponent {
     // ----------------------------------------------------------------
     // Activation APIs
     // ----------------------------------------------------------------
-    protected void activate(ComponentContext componentContext) {
-    	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID);    	
+    protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
+    	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID); 
+    	updated(properties);
         S_LOGGER.info("Activating {} ... Done.", ALIAS_APP_ID);
     }
     protected void deactivate(ComponentContext componentContext) {

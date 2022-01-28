@@ -55,7 +55,8 @@ public class ScheduledService implements ConfigurableComponent{
     // Activation APIs
     // ----------------------------------------------------------------         
     protected void activate(ComponentContext componentContext,Map<String, Object> properties) {
-    	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID);         	
+    	S_LOGGER.info("Activating {} ...", ALIAS_APP_ID);
+    	updated(properties);
         S_LOGGER.info("Activating {} ... Done.", ALIAS_APP_ID);
     }
     protected void deactivate(ComponentContext componentContext) {  	
@@ -170,8 +171,8 @@ public class ScheduledService implements ConfigurableComponent{
 				String alias = entry.getKey();
 				String message = entry.getValue();
 				if(!message.equals(EMPTY)) {
+					S_LOGGER.info("{} {} -> Publish alias: {} - message: {}",ALIAS_APP_ID,componentName,alias,message);					
 					refIntClientMqtt.publishRelay(alias, message);
-					S_LOGGER.info("{} -> Publish alias: {} - message: {}",ALIAS_APP_ID,alias,message);					
 				}
 			} catch (MessageException e) {
 				S_LOGGER.error("{} -> Error publish: {}",ALIAS_APP_ID,e.getCause());
