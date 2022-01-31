@@ -10,7 +10,7 @@
 6. [Binary package](#binary-package)
 7. [List of IoT device](#list-of-iot-devices)
 8. [Topics Publish](#topics-publish)
-9. [Installation](#installation)
+9. [Scheme](#scheme)
 10. [Links](#links)
 ***
 ## General Info
@@ -57,8 +57,10 @@ The publish topic is created automatically and the device has to be configured w
   + Ejemplo:> Type device: XiaomiZNCZ04LM; Number Device: 2.
   +    Topic publish: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_2/RelaySensorClimate_1/Power.
 ***
-## Installation
-
+## Scheme
+<div align="center">
+     <img src="/Images/Scheme.png" width"200px"</img>
+</div>
 ***
 ## Links
 Android application:
