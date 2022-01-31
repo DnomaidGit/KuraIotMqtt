@@ -58,7 +58,7 @@ The publish topic is created automatically and the device has to be configured w
   +    Topic publish: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_2/RelaySensorClimate_1/Power.
 ***
 ## Scheme
-<img src="/Images/Scheme.png" width"200px" </img>
+![Alt text](/Images/Scheme.png?raw=true)
 ***
 ## Links
 Android application:
