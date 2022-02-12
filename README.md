@@ -25,7 +25,7 @@ It is a simple Kura component to scheduler the switching on/off of relays. We wi
 * Development platform Linux (Debian 10).
 ***
 ## System Requirements
-* Eclipse Kura 4.1.0 is compatible with Java 8 and [OSGi R6](https://docs.osgi.org/specification/).
+* Eclipse Kura 5.0.0 is compatible with Java 8 and [OSGi R6](https://docs.osgi.org/specification/).
 * Zigbee2Mqtt.
 ***
 ## Build sources
@@ -34,28 +34,35 @@ installed [Eclipse Kura User Workspace](https://www.eclipse.org/kura/downloads.p
 ***  
 ## Tested
 * Raspberry pi 3 and 4.
-* Eclipse Kura 4.1.0.
+* Eclipse Kura 5.0.0.
 * Gateway Zigbee CC2531
 ***
 ## Binary package
 The binary package ready for the installation can be
 found in folder "**resources/dp**".
+| BUNDLE | COMMENT |
+| ------ | ------ |
+| clientMqttDnomiad.dp | Client mqtt|
+| mqttApiDnomaid.dp |  Client mqtt Api |
+| mqttDeviceDnomaid.dp | Configuration of mqtt devices |
+| mqttScheduleDnomaid.dp | Relay time scheduler |
+| iotDnomaid.dp | Contains all previous bundles |
 ***
 ## List of IoT devices
 A list of IoT devices used within the project:
 * Sonoff20 (Tasmota)
-* TuyaZigbeeSensor (Zigbee2Mqtt)
+* TuyaZigbeeSensor (Zigbee2mqtt)
 ***
 ## Topics Publish
 The publish topic is created automatically and the device has to be configured with this same topic. 
-1. Sonoff20
-  + Topic publish: Dnomaid/stat/Router_1/"Type device"_"Number Device"/Relay_1/Power.
-  + Ejemplo:> Type device: Sonoff20; Number Device: 1.
-  +    Topic publish: Dnomaid/stat/Router_1/Sonoff20_1/Relay_1/Power.
-2. XiaomiZNCZ04LM
-  + Topic publish: Dnomaid/mix/CC2531_1/"Type device"_"Number Device"/RelaySensorClimate_1/Power.
-  + Ejemplo:> Type device: XiaomiZNCZ04LM; Number Device: 2.
-  +    Topic publish: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_2/RelaySensorClimate_1/Power.
+1. Sonoff20: Dnomaid/stat/Router_1/Sonoff20_*Number Device*/Relay_1/Power.
+    + Example:
+      + Configuration (Eclipse Kura Web UI): Type device: **Sonoff20**; Number Device: **1**.
+      + Topic (Tasmota): Dnomaid/stat/Router_1/**Sonoff20**_**1**/Relay_1
+2. XiaomiZNCZ04LM: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_*Number Device*/RelaySensorClimate_1/Power. 
+   + Example:  
+      + Configuration (Eclipse Kura Web UI): Type device: **XiaomiZNCZ04LM**; Number Device: **2**.
+      + Topic (Zigbee2mqtt): Dnomaid/mix/CC2531_1/**XiaomiZNCZ04LM**_**2**/RelaySensorClimate_1.
 ***
 ## Scheme
 ![Image Scheme](/Images/Scheme.png)
@@ -65,3 +72,4 @@ Android application:
 * https://github.com/DnomaidGit/AndroidIotMqtt
 * https://play.google.com/store/apps/details?id=com.dnomaid.mqtt&gl=ES
 ***
+

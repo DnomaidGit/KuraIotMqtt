@@ -1,15 +1,15 @@
 #Deployment Plugin Project File
-#Fri Jan 28 20:26:36 CET 2022
+#Mon Feb 07 21:40:10 CET 2022
 build.ant.name=<.>/resources/dp/mqttDeviceDnomaid_build.xml
 build.dp.file=<.>/resources/dp/mqttDeviceDnomaid.dp
 build.location=
-bundles.0.bundle_path=<.>/META-INF/exportPlugins/plugins/org.eclipse.kura.dnomaid.iot.mqtt.device_1.0.0.202201281957.jar
+bundles.0.bundle_path=<.>/META-INF/exportPlugins/plugins/org.eclipse.kura.dnomaid.iot.mqtt.device_1.0.0.202202072139.jar
 bundles.0.customizer=false
 bundles.0.headers.count=0
 bundles.0.missing=false
-bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot.mqtt.device_1.0.0.202201281957.jar
+bundles.0.name=bundles/org.eclipse.kura.dnomaid.iot.mqtt.device_1.0.0.202202072139.jar
 bundles.0.symbolic_name=org.eclipse.kura.dnomaid.iot.mqtt.device;singleton\:\=true
-bundles.0.version=1.0.0.202201281957
+bundles.0.version=1.0.0.202202072139
 bundles.count=1
 certificates.count=0
 general.signbundles=false
