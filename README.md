@@ -10,7 +10,7 @@
 6. [Binary package](#binary-package)
 7. [List of IoT device](#list-of-iot-devices)
 8. [Topics Publish](#topics-publish)
-9. [Scheme](#scheme)
+9. [Tutorial](#tutorial)
 10. [Links](#links)
 ***
 ## General Info
@@ -55,17 +55,19 @@ A list of IoT devices used within the project:
 ***
 ## Topics Publish
 The publish topic is created automatically and the device has to be configured with this same topic. 
-1. Sonoff20: Dnomaid/stat/Router_1/Sonoff20_*Number Device*/Relay_1/Power.
+1. Sonoff20: Dnomaid/cmnd/Router_1/Sonoff20_*Number Device*/Relay_1/POWER.
     + Example:
       + Configuration (Eclipse Kura Web UI): Type device: **Sonoff20**; Number Device: **1**.
-      + Topic (Tasmota): Dnomaid/stat/Router_1/**Sonoff20**_**1**/Relay_1
-2. XiaomiZNCZ04LM: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_*Number Device*/RelaySensorClimate_1/Power. 
+      + Topic (Tasmota): Dnomaid/Router_1/**Sonoff20**_**1**/Relay_1
+2. XiaomiZNCZ04LM: Dnomaid/mix/CC2531_1/XiaomiZNCZ04LM_*Number Device*/RelaySensorClimate_1/set. 
    + Example:  
       + Configuration (Eclipse Kura Web UI): Type device: **XiaomiZNCZ04LM**; Number Device: **2**.
       + Topic (Zigbee2mqtt): Dnomaid/mix/CC2531_1/**XiaomiZNCZ04LM**_**2**/RelaySensorClimate_1.
 ***
-## Scheme
-![Image Scheme](/Images/Scheme.png)
+## Tutorial
+Watch the video on youtube.
+
+[![Watch the video](https://img.youtube.com/vi/Ednnrd2W9P0/0.jpg)](https://www.youtube.com/watch?v=Ednnrd2W9P0)
 ***
 ## Links
 Android application:
