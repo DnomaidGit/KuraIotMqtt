@@ -51,7 +51,7 @@ found in folder "**resources/dp**".
 ## List of IoT devices
 A list of IoT devices used within the project:
 * Sonoff20 (Tasmota)
-* TuyaZigbeeSensor (Zigbee2mqtt)
+* XiaomiZNCZ04LM (Zigbee2mqtt)
 ***
 ## Topics Publish
 The publish topic is created automatically and the device has to be configured with this same topic. 
