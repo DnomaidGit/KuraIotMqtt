@@ -68,6 +68,7 @@ The publish topic is created automatically and the device has to be configured w
 Watch the video on youtube.
 
 [![Watch the video](https://img.youtube.com/vi/Ednnrd2W9P0/0.jpg)](https://www.youtube.com/watch?v=Ednnrd2W9P0)
+* https://www.youtube.com/watch?v=Ednnrd2W9P0
 ***
 ## Links
 Android application:
